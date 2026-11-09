@@ -1,0 +1,1420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Marson Family</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080d;
+  --bg2: #0e1120;
+  --ink: #f3ece0;
+  --muted: #9a93a8;
+  --faint: #5b566a;
+  --gold: #e9c46a;
+  --gold2: #f6dfa0;
+  --dad: #7fb2e5;
+  --mum: #eaa37a;
+  --card: rgba(22, 24, 40, 0.72);
+  --card-hi: rgba(34, 36, 58, 0.9);
+  --line: rgba(233, 196, 106, 0.42);
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body {
+  background: radial-gradient(1200px 800px at 50% 110%, #1a1430 0%, transparent 60%),
+              radial-gradient(900px 700px at 15% -10%, #0f1d33 0%, transparent 55%),
+              var(--bg);
+  color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased;
+}
+#motes { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+/* ---------- Intro ---------- */
+#intro {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  background: radial-gradient(800px 600px at 50% 60%, #15122a 0%, #07080d 70%);
+  transition: opacity 1s ease, transform 1.2s cubic-bezier(.2,.7,.2,1), filter 1s ease;
+  cursor: pointer;
+}
+#intro.out { opacity: 0; transform: scale(1.15); filter: blur(6px); pointer-events: none; }
+#intro .stage { display: grid; place-items: center; text-align: center; padding: 16px; }
+#introTree { width: min(560px, 86vw); height: auto; overflow: visible; }
+#introTree path { fill: none; stroke: url(#goldGrad); stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .7s cubic-bezier(.4,0,.2,1) forwards; }
+#introTree circle { fill: var(--gold2); opacity: 0; transform-box: fill-box; transform-origin: center;
+  filter: drop-shadow(0 0 6px rgba(246,223,160,.9)); animation: bloom .6s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes bloom { 0% { opacity: 0; transform: scale(0); } 60% { opacity: 1; transform: scale(1.6); } 100% { opacity: .85; transform: scale(1); } }
+#intro h1 {
+  font-family: var(--serif); font-weight: 600; font-size: clamp(40px, 8vw, 84px); line-height: 1;
+  margin: 8px 0 10px; letter-spacing: .01em;
+  color: var(--gold2); text-shadow: 0 0 34px rgba(233,196,106,.45), 0 2px 0 rgba(120,80,20,.35);
+}
+#intro h1 span { display: inline-block; opacity: 0; transform: translateY(24px); filter: blur(8px);
+  animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes rise { to { opacity: 1; transform: none; filter: none; } }
+@keyframes shine { 0%,100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+#intro .tag { font-size: clamp(12px, 2.2vw, 15px); letter-spacing: .32em; text-transform: uppercase;
+  color: var(--muted); opacity: 0; animation: rise 1s ease 2.6s forwards; }
+#intro .skip { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; color: var(--faint); letter-spacing: .2em; text-transform: uppercase;
+  opacity: 0; animation: rise 1s ease 1s forwards; }
+
+/* ---------- Header & controls ---------- */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; align-items: center; gap: 16px;
+  padding: 16px 20px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(7,8,13,.9), rgba(7,8,13,0));
+}
+header > * { pointer-events: auto; }
+.brand h2 { font-family: var(--serif); font-weight: 600; font-size: 28px; margin: 0; line-height: 1;
+  background: linear-gradient(90deg, var(--gold2), var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.brand p { margin: 4px 0 0; font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.search { margin-left: auto; position: relative; }
+.search input {
+  width: 240px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+  color: var(--ink); border-radius: 999px; padding: 10px 16px 10px 38px; font: inherit; font-size: 14px; outline: none;
+  transition: border-color .2s, background .2s, width .3s;
+}
+.search input:focus { border-color: rgba(233,196,106,.6); background: rgba(255,255,255,.09); width: 280px; }
+.search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--muted); }
+.results { position: absolute; right: 0; top: calc(100% + 8px); width: 300px; max-height: 50vh; overflow: auto;
+  background: rgba(16,18,30,.97); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5); display: none; }
+.results.show { display: block; }
+.results button { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--ink);
+  padding: 9px 12px; border-radius: 9px; font: inherit; font-size: 14px; cursor: pointer; }
+.results button:hover, .results button.active { background: rgba(233,196,106,.12); }
+.results small { display: block; color: var(--muted); font-size: 12px; }
+
+.controls { position: fixed; right: 20px; bottom: 20px; z-index: 20; display: flex; flex-direction: column; gap: 8px; }
+.controls button, .chip-btn {
+  width: 44px; height: 44px; border-radius: 14px; border: 1px solid rgba(255,255,255,.1);
+  background: rgba(20,22,36,.85); color: var(--ink); cursor: pointer; display: grid; place-items: center;
+  backdrop-filter: blur(10px); transition: transform .15s, border-color .2s, background .2s;
+}
+.controls button:hover { border-color: rgba(233,196,106,.6); transform: translateY(-1px); }
+.controls svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.legend { position: fixed; left: 20px; bottom: 20px; z-index: 20; display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 12px; color: var(--muted); background: rgba(14,16,28,.7); border: 1px solid rgba(255,255,255,.06);
+  padding: 10px 14px; border-radius: 12px; backdrop-filter: blur(10px); max-width: calc(100vw - 100px); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.hint { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); z-index: 19; font-size: 12px;
+  color: var(--faint); letter-spacing: .12em; text-transform: uppercase; transition: opacity 1s; pointer-events: none; }
+
+/* ---------- Chart ---------- */
+#viewport { position: fixed; inset: 0; z-index: 1; cursor: grab; touch-action: none; }
+#viewport.dragging { cursor: grabbing; }
+#world { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+#links { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+#links path { fill: none; stroke: var(--line); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke .4s, stroke-width .4s, filter .4s; }
+#links path.in { animation: draw 1s cubic-bezier(.4,0,.2,1) forwards; animation-delay: var(--d, 0s); }
+#links path.lit { stroke: var(--gold); stroke-width: 2.6; filter: drop-shadow(0 0 6px rgba(233,196,106,.8)); }
+#links circle { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; opacity: 0; transition: opacity .6s, stroke .4s; }
+#links circle.in { opacity: 1; transition-delay: var(--d, 0s); }
+#links circle.lit { stroke: var(--gold); fill: var(--gold); }
+
+.gen-tag { position: absolute; font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--faint);
+  white-space: nowrap; transform: translate(-100%, -50%); opacity: 0; transition: opacity 1s; pointer-events: none; }
+.gen-tag.in { opacity: .9; }
+
+.card {
+  position: absolute; width: 210px; height: 108px; border-radius: 18px; padding: 14px 14px 12px 14px;
+  background: var(--card); border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: flex; gap: 12px; align-items: center; cursor: pointer; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+  opacity: 0; transform: translateY(26px) scale(.86);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.9,.25,1.15), border-color .3s, box-shadow .3s, background .3s;
+}
+.card.in { opacity: 1; transform: none; }
+.card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--side); opacity: .9; }
+.card::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,240,200,.14) 48%, transparent 66%);
+  transform: translateX(-120%); transition: transform .9s ease; }
+.card:hover { border-color: rgba(233,196,106,.55); background: var(--card-hi);
+  box-shadow: 0 16px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(233,196,106,.2), 0 0 30px rgba(233,196,106,.15); transform: translateY(-4px); }
+.card:hover::after { transform: translateX(120%); }
+.card.probable { border-style: dashed; }
+.card.lit { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 34px rgba(233,196,106,.35); }
+.card.selected { animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px var(--gold), 0 0 24px rgba(233,196,106,.3); } 50% { box-shadow: 0 0 0 2px var(--gold2), 0 0 48px rgba(233,196,106,.55); } }
+.card.root { width: 230px; background: linear-gradient(135deg, rgba(60,50,20,.65), rgba(22,24,40,.8)); border-color: rgba(233,196,106,.5); }
+.card.dad { --side: var(--dad); } .card.mum { --side: var(--mum); } .card.you { --side: var(--gold); }
+
+.av { flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--serif); font-weight: 700; font-size: 20px; color: #120f08; position: relative;
+  background: linear-gradient(135deg, var(--gold2), var(--side, var(--gold))); background-size: cover; background-position: center; }
+.av.photo { color: transparent; box-shadow: 0 0 0 2px var(--side, var(--gold)); }
+.card .txt { min-width: 0; }
+.card .nm { font-family: var(--serif); font-weight: 700; font-size: 18px; line-height: 1.05; margin: 0 0 4px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card .yr { font-size: 12px; color: var(--gold2); opacity: .9; letter-spacing: .02em; }
+.card .pl { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; max-width: 118px; }
+.card .sibs { position: absolute; right: 8px; bottom: 7px; font-size: 10px; color: var(--muted);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 1px 7px; background: rgba(0,0,0,.25); }
+.card .flag { position: absolute; right: 9px; bottom: 7px; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+
+/* ---------- Profile ---------- */
+#scrim { position: fixed; inset: 0; z-index: 29; background: rgba(0,0,0,.35); opacity: 0; pointer-events: none; transition: opacity .4s; }
+#scrim.show { opacity: 1; pointer-events: auto; }
+#profile {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100vw); z-index: 30;
+  background: linear-gradient(180deg, rgba(20,20,36,.97), rgba(10,11,20,.98));
+  border-left: 1px solid rgba(233,196,106,.18); box-shadow: -30px 0 80px rgba(0,0,0,.6);
+  transform: translateX(105%); transition: transform .55s cubic-bezier(.2,.8,.2,1);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+#profile.open { transform: none; }
+#profile .close { position: sticky; top: 14px; margin: 14px 14px -58px auto; display: grid; place-items: center; z-index: 3;
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.4);
+  color: var(--ink); cursor: pointer; font-size: 20px; }
+.hero { position: relative; padding: 46px 28px 22px; text-align: center; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -40% -20% auto; height: 340px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--side) 35%, transparent), transparent); opacity: .6; }
+.portrait { position: relative; width: 148px; height: 148px; margin: 0 auto 18px; border-radius: 50%; }
+.portrait .ring { position: absolute; inset: -6px; border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--gold), transparent 30%, var(--side) 55%, transparent 80%, var(--gold));
+  animation: spin 6s linear infinite; -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.portrait .pic { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--serif); font-size: 56px; font-weight: 700; color: #120f08;
+  background: linear-gradient(135deg, var(--gold2), var(--side)); background-size: cover; background-position: center; }
+.portrait .pic.photo { color: transparent; }
+.rel { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; position: relative; }
+.hero h3 { font-family: var(--serif); font-weight: 700; font-size: 38px; line-height: 1.02; margin: 0 0 6px; position: relative; }
+.hero .nee { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 18px; position: relative; }
+.hero .life { margin-top: 10px; color: var(--gold2); font-size: 15px; position: relative; }
+.badges { display: flex; justify-content: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; position: relative; }
+.badge { font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); color: var(--muted); }
+.badge.ok { border-color: rgba(120,200,140,.5); color: #9fdcae; }
+.badge.maybe { border-color: rgba(233,196,106,.5); color: var(--gold); }
+.badge.fam { border-color: rgba(160,170,255,.45); color: #b8bfff; }
+.photo-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; position: relative; }
+.photo-actions label, .photo-actions button { font: inherit; font-size: 12px; color: var(--ink); cursor: pointer;
+  border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); border-radius: 999px; padding: 7px 14px; }
+.photo-actions label:hover, .photo-actions button:hover { border-color: var(--gold); }
+.photo-actions input { display: none; }
+
+.sec { padding: 6px 28px 18px; }
+.sec h4 { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); margin: 12px 0 12px;
+  display: flex; align-items: center; gap: 10px; }
+.sec h4::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,.12), transparent); }
+.story { font-family: var(--serif); font-size: 19px; line-height: 1.45; color: #e8e0d0; margin: 0; }
+.tl { list-style: none; margin: 0; padding: 0 0 0 18px; position: relative; }
+.tl::before { content: ""; position: absolute; left: 4px; top: 6px; bottom: 6px; width: 1px; background: linear-gradient(var(--gold), rgba(233,196,106,.1)); }
+.tl li { position: relative; padding: 0 0 14px 12px; }
+.tl li::before { content: ""; position: absolute; left: -18px; top: 6px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--gold); }
+.tl .when { font-size: 12px; color: var(--gold2); font-weight: 600; }
+.tl .what { font-size: 14px; color: var(--ink); margin-top: 1px; }
+.tl .where { font-size: 12px; color: var(--muted); }
+.people { display: grid; gap: 8px; }
+.person-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; cursor: pointer;
+  background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.06); color: var(--ink); text-align: left; font: inherit; width: 100%;
+  transition: border-color .2s, background .2s, transform .2s; }
+.person-link:hover { border-color: rgba(233,196,106,.5); background: rgba(233,196,106,.07); transform: translateX(3px); }
+.person-link.static { cursor: default; }
+.person-link.static:hover { transform: none; border-color: rgba(255,255,255,.06); background: rgba(255,255,255,.035); }
+.person-link .mini { width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto; display: grid; place-items: center;
+  font-family: var(--serif); font-weight: 700; color: #120f08; font-size: 14px;
+  background: linear-gradient(135deg, var(--gold2), var(--side, var(--gold))); background-size: cover; background-position: center; }
+.person-link .mini.ghost { background: rgba(255,255,255,.08); color: var(--muted); }
+.person-link b { display: block; font-weight: 600; font-size: 14px; }
+.person-link small { color: var(--muted); font-size: 12px; }
+.person-link .go { margin-left: auto; color: var(--gold); opacity: .7; }
+.ev { display: grid; gap: 10px; }
+.ev-item { padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06); }
+.ev-item .src { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.ev-item .src .ic { width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; background: rgba(233,196,106,.12); font-size: 12px; letter-spacing: 0; }
+.ev-item p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: #ddd6c8; }
+.ev-item .ref { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+.ev-item a { color: var(--gold2); font-size: 12px; text-decoration: none; display: inline-block; margin-top: 6px; }
+.ev-item a:hover { text-decoration: underline; }
+.empty { color: var(--muted); font-size: 13px; font-style: italic; }
+.hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .32;
+  filter: blur(2px) saturate(1.1); transform: scale(1.08); animation: drift 22s ease-in-out infinite alternate;
+  -webkit-mask: linear-gradient(to bottom, #000 30%, transparent 100%); mask: linear-gradient(to bottom, #000 30%, transparent 100%); }
+@keyframes drift { from { transform: scale(1.08) translate(0, 0); } to { transform: scale(1.18) translate(-2%, 1%); } }
+.hero > *:not(.hero-bg) { position: relative; }
+.places { display: grid; gap: 12px; }
+.place { display: block; border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit;
+  background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.07); transition: transform .25s, border-color .25s; }
+.place:hover { transform: translateY(-2px); border-color: rgba(233,196,106,.5); }
+.place .ph { height: 150px; background: linear-gradient(135deg, #2a2340, #14182a); background-size: cover; background-position: center;
+  display: grid; place-items: center; font-size: 42px; transition: transform 6s ease; }
+.place:hover .ph { transform: scale(1.06); }
+.place .pc { padding: 12px 14px 14px; position: relative; background: rgba(14,15,26,.92); }
+.place b { font-family: var(--serif); font-size: 19px; font-weight: 700; display: block; margin-bottom: 4px; }
+.place p { margin: 0; font-size: 13px; line-height: 1.5; color: #d8d0c2; }
+.place small { display: block; margin-top: 8px; font-size: 10.5px; color: var(--faint); }
+.world { display: grid; gap: 2px; }
+.wi { display: grid; grid-template-columns: 50px 1fr auto; gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.wy { font-family: var(--serif); font-weight: 700; font-size: 17px; color: var(--gold2); }
+.wt { font-size: 13.5px; color: var(--ink); line-height: 1.4; }
+.wa { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.next { font-size: 14px; line-height: 1.55; color: #e6dfd2; padding: 14px 16px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(233,196,106,.1), rgba(233,196,106,.03)); border: 1px solid rgba(233,196,106,.25); }
+.foot { padding: 10px 28px 40px; font-size: 11.5px; color: var(--faint); line-height: 1.5; }
+
+@media (max-width: 720px) {
+  header { padding: 12px 14px; flex-wrap: wrap; gap: 10px; }
+  .brand h2 { font-size: 22px; }
+  .search { margin-left: 0; width: 100%; }
+  .search input, .search input:focus { width: 100%; }
+  .results { width: 100%; }
+  .legend { left: 12px; bottom: 12px; font-size: 11px; gap: 10px; padding: 8px 10px; max-width: calc(100vw - 80px); }
+  .controls { right: 12px; bottom: 12px; }
+  .hint { display: none; }
+  #profile { top: auto; height: 88vh; width: 100vw; border-left: 0; border-top: 1px solid rgba(233,196,106,.25);
+    border-radius: 22px 22px 0 0; transform: translateY(105%); }
+  #profile.open { transform: none; }
+  .hero h3 { font-size: 32px; }
+  .sec, .hero, .foot { padding-left: 18px; padding-right: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<canvas id="motes"></canvas>
+
+<div id="intro" aria-hidden="true">
+  <div class="stage">
+    <svg id="introTree" viewBox="0 0 600 470">
+      <defs>
+        <linearGradient id="goldGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#8a6526"/><stop offset=".55" stop-color="#e9c46a"/><stop offset="1" stop-color="#fff1c9"/>
+        </linearGradient>
+      </defs>
+      <g id="branches"></g>
+    </svg>
+    <h1 id="introTitle"></h1>
+    <div class="tag">Ten generations · 1722 to today</div>
+  </div>
+  <div class="skip">Click to enter</div>
+</div>
+
+<header>
+  <div class="brand">
+    <h2>The Marson Family</h2>
+    <p id="stats"></p>
+  </div>
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Find an ancestor…" autocomplete="off" aria-label="Search people">
+    <div class="results" id="results"></div>
+  </div>
+</header>
+
+<div id="viewport"><div id="world"><svg id="links"></svg></div></div>
+
+<div class="legend">
+  <span><i style="background:var(--dad)"></i>Dad's side</span>
+  <span><i style="background:var(--mum)"></i>Mum's side</span>
+  <span><i style="border:1px dashed var(--gold)"></i>Probable</span>
+</div>
+<div class="hint" id="hint">Drag to explore · scroll to zoom · tap anyone</div>
+<div class="controls">
+  <button id="zin" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+  <button id="zout" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+  <button id="fit" title="Show everyone" aria-label="Fit to screen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  <button id="me" title="Back to me" aria-label="Centre on Ethan"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
+</div>
+
+<div id="scrim"></div>
+<aside id="profile" aria-label="Person profile"></aside>
+
+<script>
+/* =========================================================
+   DATA
+   Each person: id, name, sex, b (born), d (died), place, maiden,
+   conf: confirmed | probable | family, living, father, mother,
+   facts [[when, what, where]], story, sib [[name, note]], ev [evidence]
+   ========================================================= */
+const FS = id => "https://www.familysearch.org/tree/person/details/" + id;
+const bmd = (t, ref) => ({ k: "bmd", t, ref, url: "https://www.freebmd.org.uk/cgi/search.pl" });
+const cen = (y, t, url) => ({ k: "census", y, t, url });
+const reg = (t, url) => ({ k: "parish", t, url });
+const dth = t => ({ k: "death", t, url: "https://www.familysearch.org/search/collection/2285341" });
+const tree = (id, t) => ({ k: "tree", t, ref: id, url: FS(id) });
+const fam = t => ({ k: "family", t });
+
+const PEOPLE = [
+  { id: "ethan", name: "Ethan Marson", sex: "m", b: "20 Nov 2008", place: "England", living: true, conf: "family",
+    father: "mark", mother: "nadia",
+    facts: [["20 Nov 2008", "Born", "England"], ["2026", "Started tracing the family tree back to 1749", ""]],
+    story: "Where the tree begins. Your branches reach from Birmingham's back-to-back streets to the Cotswolds, Herefordshire and Bethlehem.",
+    sib: [["Angelina Marson", "Sister · b. c.2006"]], ev: [fam("Born 20 November 2008.")] },
+  { id: "angelina", name: "Angelina Marson", sex: "f", b: "c.2006", living: true, conf: "family", sibling: true,
+    story: "Ethan's older sister.", ev: [fam("From Ethan.")] },
+
+  /* ---- Parents ---- */
+  { id: "mark", name: "Mark Marson", sex: "m", b: "21 Oct 1968", place: "Birmingham", living: true, conf: "family",
+    father: "roger", mother: "jillian",
+    facts: [["21 Oct 1968", "Born", "Birmingham"]],
+    sib: [["Gary Roger 'Gaz' Marson", "Brother. A musician: The Surf Rats, previously Spellbound"], ["Gavin John Marson", "Brother"]],
+    ev: [fam("Born 21 October 1968, Birmingham.")] },
+  { id: "nadia", name: "Nadia Marson", maiden: "Salem", sex: "f", b: "1972", place: "Bristol", living: true, conf: "confirmed",
+    father: "louay", mother: "anthea",
+    story: "Born in Bristol, Nadia grew up between worlds, living in Jordan, England, Kuwait and the United States.",
+    facts: [["1972", "Born", "Bristol"]],
+    sib: [["Nedal Salem", "Brother · b. 1970, Bristol. CEO / MD at BAT"], ["Maysa Salem", "Sister · born in England · married Rafel Bagot"], ["Nader Salem", "Brother · b. 1978, Bristol"]],
+    ev: [bmd("Birth registered Apr–Jun 1972, Bristol: Nadia Salem, mother's maiden name Carwardine.", "Vol 7b · Page 215")] },
+
+  /* ---- Grandparents ---- */
+  { id: "roger", name: "Roger Marson", sex: "m", b: "28 Mar 1944", place: "Birmingham", living: true, conf: "confirmed",
+    father: "samuelg", mother: "elsie",
+    facts: [["28 Mar 1944", "Born", "Birmingham"], ["1964", "Married Jillian Rose Trueman", "Birmingham"]],
+    sib: [["Irene J. Marson", "Sister · b. 1940, Birmingham"], ["Robert F. Marson", "Brother · b. 1947, Birmingham"]],
+    ev: [bmd("Birth registered Apr–Jun 1944, Birmingham: Roger Marson, mother's maiden name Fitzpatrick.", "Vol 6d · Page 1051"),
+         bmd("Marriage registered Jul–Sep 1964, Birmingham: Roger Marson to Jillian Trueman.", "Vol 9c · Page 231"),
+         bmd("Siblings: Irene J. (Sep qtr 1940, 6d 1037) and Robert F. (Jun qtr 1947, 9c 413), both with mother's maiden name Fitzpatrick."),
+         fam("Birth date from family.")] },
+  { id: "jillian", name: "Jillian Rose Marson", maiden: "Trueman", sex: "f", b: "13 Feb 1943", place: "Birmingham", living: true, conf: "confirmed",
+    father: "jwt1910", mother: "lilian",
+    story: "Jillian Rose may have been named after her grandmother, Rose Louisa Hewitt. She was born in wartime Birmingham in February 1943. The family had remembered the year as 1948, but the official index places her birth in early 1943.",
+    facts: [["13 Feb 1943", "Born", "Birmingham"], ["1964", "Married Roger Marson", "Birmingham"]],
+    sib: [["Raymond W. Trueman", "Brother · b. 1939, Birmingham · deceased"]],
+    ev: [bmd("Birth registered Jan–Mar 1943, Birmingham: Jillian R. Trueman, mother's maiden name Hathaway. No Jillian Trueman appears in 1948. Volume '6d' is the Birmingham code used before 1946; births from 1946 on were filed under '9c'.", "Vol 6d · Page 445"),
+         bmd("Brother Raymond W. Trueman, Jan–Mar 1939, Birmingham, mother's maiden name Hathaway.", "Vol 6d · Page 393"),
+         fam("Family gives her birthday as 13 February. The year was remembered as 1948, but the family now thinks 1943 is right.")] },
+  { id: "louay", name: "Louay Salem", sex: "m", b: "18 Feb 1948", place: "Bethlehem", living: true, conf: "family",
+    father: "ghaleb", mother: "badriyeh",
+    story: "Born in Bethlehem in 1948, Louay won a scholarship from the King of Jordan to study at Atlantic College in Wales, which brought him to Britain. He married Anthea Carwardine in Bristol in 1969.",
+    facts: [["18 Feb 1948", "Born", "Bethlehem"], ["1960s", "Scholarship to Atlantic College", "St Donat's, Wales"], ["1969", "Married Anthea Carwardine", "Bristol"]],
+    ev: [fam("Birth date, birthplace, parents and the scholarship are from family."),
+         bmd("Marriage registered Jul–Sep 1969, Bristol: Louay Salem to Carwardine.", "Vol 7b · Page 636")] },
+  { id: "anthea", name: "Anthea Betty Salem", maiden: "Carwardine", sex: "f", b: "1948", place: "Birmingham", living: true, conf: "confirmed",
+    father: "leonard", mother: "beryl",
+    story: "Anthea's family moved from Birmingham to Nottinghamshire in the early 1950s. Her baby brother Jeffrey died there aged one.",
+    facts: [["Late 1948", "Born", "Birmingham"], ["1969", "Married Louay Salem", "Bristol"]],
+    sib: [["Linda Dunsten (née Carwardine)", "Sister · b. c.21 Mar 1950"], ["Jeffrey L. Carwardine", "Brother · b. 1953, Meriden · d. 1955, Southwell, aged 1"],
+          ["Jayne M. Carwardine", "Sister · b. 1960, Southwell"], ["Ian L. Carwardine", "Brother · b. 1961, Southwell"], ["Tracy D. Carwardine", "Sister · b. 1964, Mansfield"]],
+    ev: [bmd("Birth registered Oct–Dec 1948, Birmingham: Anthea B. Carwardine, mother's maiden name Coates.", "Vol 9c · Page 1020"),
+         bmd("Brother Geoffrey L. Carwardine died Jan–Mar 1955, Southwell, aged 1.", "Vol 3c · Page 553"),
+         bmd("Siblings Jayne M. (1960, 3c 757), Ian L. (1961, 3c 717) and Tracy D. (1964, 3C 295), mother's maiden name Coates."),
+         fam("Middle name Betty, and her siblings, confirmed by family.")] },
+
+  /* ---- Great-grandparents ---- */
+  { id: "samuelg", name: "Samuel George Marson", sex: "m", b: "4 May 1916", d: "Feb 1998", place: "Birmingham", conf: "confirmed",
+    father: "samuel", mother: "clara",
+    facts: [["4 May 1916", "Born", "Birmingham"], ["Dec 1939", "Married Elsie Fitzpatrick", "Birmingham"], ["1939–45", "Didn't serve in the Second World War because of missing fingers", ""], ["Feb 1998", "Died", "Birmingham"]],
+    ev: [bmd("Birth registered Apr–Jun 1916, Birmingham: Samuel G. Marson, mother's maiden name Peak.", "Vol 6d · Page 362"),
+         bmd("Marriage registered Oct–Dec 1939, Birmingham: Samuel G. Marson to Elsie Fitzpatrick.", "Vol 6d · Page 1808"),
+         dth("Death registered February 1998, Birmingham. Born 4 May 1916."),
+         fam("Dad says he didn't serve in the war because he had missing fingers.")] },
+  { id: "elsie", name: "Elsie Irene Marson", maiden: "Fitzpatrick", sex: "f", b: "19 Mar 1917", d: "1988", place: "Birmingham", conf: "confirmed",
+    father: "jfitz", mother: "ada",
+    facts: [["19 Mar 1917", "Born", "Birmingham"], ["Dec 1939", "Married Samuel George Marson", "Birmingham"], ["1988", "Died, aged 71", "Birmingham"]],
+    sib: [["Frederick Fitzpatrick", "Brother · b. c.1906"], ["Ernest Norman Fitzpatrick", "Brother"], ["Nellie Jane Fitzpatrick", "Sister"], ["Ada L. Fitzpatrick", "Sister · b. 1914"]],
+    ev: [bmd("Birth registered Apr–Jun 1917, Birmingham: Elsie I. Fitzpatrick, mother's maiden name Rudge. The only Birmingham Elsie of the right age.", "Vol 6d · Page 320"),
+         dth("Death registered 1988, Birmingham: Elsie Irene Marson, born 19 Mar 1917. This gives her full middle name and exact birthday. Ref 32/1562."),
+         cen(1911, "Elsie's older siblings Frederick, Ernest Norman and Nellie Jane were living with their father James Frederick Fitzpatrick.")] },
+  { id: "jwt1910", name: "James William Trueman", sex: "m", b: "20 Mar 1910", d: "1994", place: "Aston, Birmingham", conf: "confirmed",
+    father: "jwt1881", mother: "maryt",
+    facts: [["20 Mar 1910", "Born", "Aston, Birmingham"], ["1911", "Census, aged 1, with parents", "Birmingham"], ["1936", "Married Lilian Hathaway", "Birmingham"], ["1994", "Died", "Warwickshire"]],
+    sib: [["Mary Trueman", "Sister · b. c.1907"]],
+    ev: [bmd("Birth registered Apr–Jun 1910, Aston.", "Vol 6d · Page 285"),
+         bmd("Marriage registered Jul–Sep 1936, Birmingham: James W. Trueman to Lilian Hathaway.", "Vol 6d · Page 405"),
+         dth("Death registered 1994, Warwickshire. Born 20 March 1910."),
+         cen(1911, "Living with father James William (b. c.1881), mother Mary and sister Mary."),
+         fam("Family confirmed he died in 1994, which tells him apart from another James William Trueman born in 1898.")] },
+  { id: "lilian", name: "Lilian Flora Trueman", maiden: "Hathaway", sex: "f", b: "1 Mar 1914", d: "1993", place: "Birmingham", conf: "confirmed",
+    father: "henryh", mother: "rose",
+    story: "Lilian lost her father, Henry, when she was only 5. He died in early 1920 aged 35, leaving her mum Rose to bring up six children. Her middle name, Flora, came from her aunt Flora Hewitt. She died in 1993, the year before her husband James.",
+    facts: [["1 Mar 1914", "Born", "Birmingham"], ["Jan–Mar 1920", "Her father Henry died, aged 35", "Birmingham"], ["1936", "Married James William Trueman", "Birmingham"], ["1993", "Died, aged 79", "Birmingham"]],
+    sib: [["Hilda Beatrice Hathaway", "Sister · b. c.1910"], ["Mary A. Hathaway", "Sister · b. 1912"], ["John H. Hathaway", "Brother · b. 1916"], ["Henry J. Hathaway", "Brother · b. 1917"], ["Alfred O. Hathaway", "Brother · b. 1919"]],
+    ev: [dth("Death registered 1993, Birmingham: Lilian Flora Trueman, born 1 Mar 1914."),
+         bmd("Birth registered Apr–Jun 1914, Birmingham: Lilian F. Hathaway, mother's maiden name Hewitt.", "Vol 6d · Page 634"),
+         bmd("Siblings with mother's maiden name Hewitt: Mary A. (1912), John H. (1916), Henry J. (1917), Alfred O. (1919).")] },
+  { id: "ghaleb", name: "Ghaleb Salem", sex: "m", place: "Bethlehem", conf: "family",
+    story: "Louay's father. The Salem family's story in Bethlehem is still waiting to be told, and Louay is the best person to ask.",
+    ev: [fam("Name from family.")] },
+  { id: "badriyeh", name: "Badriyeh Salem", sex: "f", place: "Bethlehem", conf: "family",
+    story: "Louay's mother. The spelling is uncertain: it could be Badria, Badriya or Badriyeh (بدرية), a name meaning 'like the full moon'.",
+    ev: [fam("Name from family. Spelling to confirm.")] },
+  { id: "leonard", name: "Leonard Carwardine", sex: "m", b: "1922", place: "Birmingham", conf: "confirmed",
+    father: "thomasc", mother: "emily",
+    facts: [["1922", "Born", "Birmingham"], ["1946", "Married Beryl Coates", "Birmingham"], ["1953", "Living near Meriden", "Warwickshire"], ["1955–64", "Living in Southwell & Mansfield", "Nottinghamshire"]],
+    ev: [bmd("Marriage registered Apr–Jun 1946, Birmingham: Leonard Carwardine to Beryl Coates.", "Vol 6d · Page 50"),
+         bmd("Birth registered Apr–Jun 1922, Birmingham: Leonard Carwardine, mother's maiden name Stephens. Probable match.", "Vol 6d · Page 414"),
+         fam("Confirmed by family as Anthea's father.")] },
+  { id: "beryl", name: "Beryl Carwardine", maiden: "Coates", sex: "f", conf: "confirmed",
+    facts: [["1946", "Married Leonard Carwardine", "Birmingham"]],
+    ev: [bmd("Marriage registered Apr–Jun 1946, Birmingham.", "Vol 6d · Page 50"), fam("Confirmed by family.")] },
+
+  /* ---- 2x great ---- */
+  { id: "samuel", name: "Samuel Marson", sex: "m", b: "Dec 1892", place: "Aston, Birmingham", conf: "confirmed",
+    father: "georgem", mother: "emmabird",
+    story: "The Marson brick wall has been broken. Samuel was born in Aston at the end of 1892 to George Marson and Emma Bird, and was named after his grandad, Samuel Bird. By 1901, aged 8, he and his little sister Emma were living with their Bird grandparents in Smethwick rather than with their parents. Why is still a mystery. At 18 he was working as a labourer at the Pyx Granite quarries on the Malvern Hills, where granite was blasted out of the hillside for roads. He was boarding with one of the quarry's tractor drivers. In 1915, mid-war, he married Clara Peak.",
+    facts: [["Oct–Dec 1892", "Born", "Aston, Birmingham"], ["1901", "Census, aged 8, living with grandparents Samuel & Phoebe Bird", "Smethwick"], ["1911", "Quarry labourer for the Pyx Granite Co., boarding with a tractor driver's family", "West Malvern, Herefordshire"], ["Dec 1915", "Married Clara Marion Peak", "Birmingham"]],
+    sib: [["Emma Marson", "Sister · b. c.1895, Aston"]],
+    ev: [bmd("Marriage registered Oct–Dec 1915, Birmingham: Samuel Marson to Clara M. Peak.", "Vol 6d · Page 681"),
+         { k: "bmd", t: "PROVEN. GRO online birth index (found by Ethan): Samuel Marson, registered Oct–Dec 1892, Aston, mother's maiden name BIRD. This confirms his parents were George Marson and Emma Bird.", ref: "1892 D Quarter · Aston · Vol 6d · Page 333", url: "https://www.gro.gov.uk/gro/content/certificates/" },
+         cen(1911, "Samuel Marson, 18, single, boarder, labourer for the Pyx Granite Co. Ltd, born Aston Road, Birmingham. Living at West Malvern (Ledbury district) with Albert Thomas Carter, motor tractor driver for the same quarry company, his wife Mary Ann and their baby.", "https://www.familysearch.org/ark:/61903/1:1:X7JT-YXP"),
+         { k: "census", t: "Possible WWI service (found by Ethan on IWM Lives of the First World War): three Samuel Marsons served in the artillery. #97704/121914, Acting Corporal, Royal Field and Garrison Artillery; #26319, Gunner, RGA; #190019, Gunner, RGA. Only medal cards survive online, so it is not yet known which (if any) is ours. A surviving service record or pension file (Findmypast or Ancestry, free at the library) would give birthplace and next of kin.", url: "https://livesofthefirstworldwar.iwm.org.uk/" },
+         bmd("Possible death: Samuel Marson, registered Jan–Mar 1936, Birmingham, aged 52. He was buried Feb 1936 at Key Hill Cemetery (Find a Grave). The age is 9 years too old for our Samuel, so this isn't proven. Clara was still a Marson when she died in 1946.", "Vol 6d · Page 210"),
+         cen(1901, "Samuel Marson, 8, born Aston, grandson in the household of Samuel Bird (52, blacksmith's striker) and Phoebe Bird, Smethwick. Sister Emma Marson, 6, also there.", "https://www.familysearch.org/ark:/61903/1:1:XSSP-X1J"),
+         tree("G8MF-ZSX", "Shared tree: born Dec 1892 Aston, son of George Marson and Emma Bird.")] },
+  { id: "georgem", name: "Thomas George Marson", sex: "m", b: "early 1872", place: "Birmingham", conf: "confirmed",
+    father: "johnfm", mother: "hannahm",
+    story: "Registered at birth as Thomas George Marson in early 1872, but always known as George, which is why he was so hard to find. He was the eldest son of John F. Marson, an iron bedstead smith, and Hannah Harding from Herefordshire. Your Marson surname line now goes one step further back. George married Emma Bird in 1891 when he was about 21 and she about 18. They had Samuel in 1892 and Emma around 1895. By 1901 the children were living with Emma's parents. Whether George and Emma had died, split up or were working away is the next mystery to solve.",
+    facts: [["Jan–Mar 1872", "Born (registered as Thomas George Marson)", "Birmingham"], ["1881", "Census with parents John F. & Hannah and brothers", "Aston"], ["1891", "Census, single, before his wedding", "Smethwick"], ["Jul–Sep 1891", "Married Emma Bird", "King's Norton"], ["1892", "Son Samuel born", "Aston"], ["c.1895", "Daughter Emma born", "Aston"], ["1901 & 1911", "Not found in either census", ""]],
+    sib: [["John Frederick Marson", "Brother · b. 1873, Aston"], ["William Marson", "Brother · b. c.1878"], ["Richard Marson", "Brother · b. c.1881"]],
+    ev: [{ k: "bmd", t: "GRO online birth index (found by Ethan): Thomas George Marson, registered Jan–Mar 1872, Birmingham, mother's maiden name HARDING. He's the George (9) in the April 1881 census with John F. and Hannah.", ref: "1872 M Quarter · Birmingham · Vol 6d · Page 117", url: "https://www.gro.gov.uk/gro/content/certificates/" },
+         bmd("Marriage registered Jul–Sep 1891, King's Norton: George Marson and Emma Bird, same page.", "Vol 6c · Page 718"),
+         cen(1881, "George Marson, born c.1872 Birmingham, in Aston with parents John F. and Hannah Marson and brothers William, John and Richard."),
+         cen(1891, "A George Marson, born c.1870 Warwickshire, living in Smethwick, the same town where his son was later raised by the Birds."),
+         bmd("Searched for his death 1893–1915: no George Marson of the right age died in the Birmingham area. Not found in the 1901 or 1911 census either."),
+         tree("G8MF-H6Y", "Shared tree profile, 1 source: born 1870 Birmingham.")] },
+  { id: "emmabird", name: "Emma Marson", maiden: "Bird", sex: "f", b: "c.1873", place: "Darlaston, Staffordshire", conf: "confirmed",
+    father: "samuelbird", mother: "phoebebird",
+    story: "A Black Country girl from Darlaston. Her family lived in Lambeth, London around 1881 before settling near Birmingham. She married George Marson at about 18. By 1901 her two children were being raised by her parents.",
+    facts: [["c.1873", "Born", "Darlaston, Staffordshire"], ["1881", "Living", "Lambeth, London"], ["Jul–Sep 1891", "Married George Marson", "King's Norton"]],
+    ev: [bmd("Marriage registered Jul–Sep 1891, King's Norton: Emma Bird and George Marson.", "Vol 6c · Page 718"),
+         cen(1901, "Her children Samuel and Emma Marson were living with her parents Samuel and Phoebe Bird.", "https://www.familysearch.org/ark:/61903/1:1:XSSP-X1J"),
+         bmd("Searched for her death 1893–1915: no Emma Marson of the right age died in the area. She didn't remarry in the Birmingham area as 'Emma Marson' before 1913 either."),
+         dth("Lead: an Emma Marson, born c.1875, died in Birmingham in 1947. That could be her (her age is given as c.1873 elsewhere), which would mean she was alive and nearby all along."),
+         tree("G8MH-282", "Shared tree profile: born 1873 Darlaston.")] },
+  { id: "samuelbird", name: "Samuel Bird", sex: "m", b: "c.1849", place: "Darlaston, Staffordshire", conf: "confirmed",
+    father: "williambird", mother: "annbird",
+    story: "A blacksmith's striker, the man who swung the heavy sledgehammer for the smith. That's tough, skilled work in Black Country forges. In 1901 he and Phoebe took in their grandchildren Samuel and Emma Marson. Little Samuel was named after him.",
+    facts: [["c.1849", "Born", "Darlaston, Staffordshire"], ["16 May 1869", "Married Phoebe Wilks, aged 20", "St John's, Wednesbury"], ["1871", "Living", "Darlaston"], ["1881", "Living", "Lambeth, London"], ["1891", "Living", "Worcestershire"], ["1901", "Blacksmith's striker", "Smethwick"], ["Apr–Jun 1915?", "Possible death, aged 69", "King's Norton (which covered Smethwick)"]],
+    sib: [],
+    ev: [cen(1901, "Samuel Bird, 52, head, married, blacksmith's striker, born Darlaston. Household: wife Phoebe, sons Samuel (20, born London) and George (9, born Smethwick), and grandchildren Samuel and Emma Marson.", "https://www.familysearch.org/ark:/61903/1:1:XSSP-X1J"),
+         bmd("Possible death: Samuel Bird, aged 69, registered Apr–Jun 1915, King's Norton.", "Vol 6d · Page 16"),
+         reg("Married 16 May 1869, St John, Wednesbury: Samuel Bird (20, of Darlaston, father William Bird) to Phoebe Wilks (20, of Darlaston, father Joseph Wilks).", "https://www.familysearch.org/ark:/61903/1:1:QLQH-2454"),
+         bmd("Marriage registered Apr–Jun 1869, West Bromwich: Samuel Bird and Phebe Wilks.", "Vol 6b · Page 806"),
+         tree("G25D-N8N", "Shared tree profile, 10 sources, with parents William and Ann Bird.")] },
+  { id: "phoebebird", name: "Phoebe Bird", maiden: "Wilks", sex: "f", b: "Mar 1849", place: "Darlaston, Staffordshire", conf: "confirmed",
+    father: "josephwilkes", mother: "charlottelloyd",
+    story: "Christened at St Lawrence's, Darlaston, on 18 Mar 1849. Her father Joseph died when she was about 10. She married Samuel Bird at 20, followed him to London and back, and in her fifties took in her grandchildren Samuel and Emma Marson.",
+    sib: [["Job Wilkes", "Brother"]],
+    facts: [["18 Mar 1849", "Christened", "St Lawrence, Darlaston"], ["1851", "Census with parents Joseph & Charlotte", "Darlaston"], ["16 May 1869", "Married Samuel Bird", "St John's, Wednesbury"], ["1881", "Living", "Lambeth, London"], ["1901", "Raising her grandchildren", "Smethwick"]],
+    ev: [cen(1901, "Phoebe Bird, 52, born Darlaston, wife of Samuel.", "https://www.familysearch.org/ark:/61903/1:1:XSSP-X1J"),
+         reg("Christened 18 Mar 1849, Darlaston: Phoebe Wilkes, parents Joseph and Charlotte.", "https://www.familysearch.org/ark:/61903/1:1:QL32-4KRC"),
+         cen(1851, "Phoebe Wilkes, 2, Darlaston, with parents Joseph and Charlotte and brother Job.", "https://www.familysearch.org/ark:/61903/1:1:SGGH-LBG"),
+         reg("Married 16 May 1869, St John, Wednesbury, to Samuel Bird. Her father: Joseph Wilks.", "https://www.familysearch.org/ark:/61903/1:1:QLQH-2454"),
+         tree("9MBK-L7F", "Shared tree profile, 14 sources.")] },
+  { id: "williambird", name: "William Bird", sex: "m", b: "c.1808", conf: "probable",
+    story: "Samuel Bird's father, named on Samuel's 1869 wedding record. The family lived in Darlaston in the Black Country, a town of nail-makers, gun-lock filers and ironworkers.",
+    facts: [["c.1808", "Born", ""], ["1851", "Living (son Samuel aged 2)", "Darlaston"]],
+    ev: [reg("Named as Samuel Bird's father on his marriage record, 16 May 1869, Wednesbury.", "https://www.familysearch.org/ark:/61903/1:1:QLQH-2454"), tree("G25D-ZT6", "Shared tree profile.")] },
+  { id: "annbird", name: "Ann Bird", sex: "f", b: "c.1811", conf: "probable",
+    facts: [["c.1811", "Born", ""]],
+    ev: [tree("G25D-69N", "Shared tree gives her as Samuel Bird's mother. Her maiden name isn't known yet.")] },
+  { id: "josephwilkes", name: "Joseph Wilkes", sex: "m", b: "c.1812", d: "1859", place: "Darlaston", conf: "probable",
+    story: "Phoebe's father. He married Charlotte Lloyd at Wolverhampton's great collegiate church of St Peter in 1841, raised at least nine children in Darlaston, and died around 1859 in his late forties.",
+    facts: [["c.1812", "Born", ""], ["5 Apr 1841", "Married Charlotte Lloyd", "St Peter's, Wolverhampton"], ["1851", "Census with Charlotte, Phoebe and Job", "Darlaston"], ["c.1859", "Died", ""]],
+    ev: [reg("Named as Phoebe's father on her 1869 marriage record and her 1849 baptism.", "https://www.familysearch.org/ark:/61903/1:1:QL32-4KRC"), cen(1851, "Joseph Wilkes, Darlaston, with wife Charlotte.", "https://www.familysearch.org/ark:/61903/1:1:SGGH-LBG"), tree("K845-5FJ", "Shared tree: 1812–1859, nine children.")] },
+  { id: "charlottelloyd", name: "Charlotte Wilkes", maiden: "Lloyd", sex: "f", b: "c.1815", conf: "probable",
+    facts: [["c.1815", "Born", ""], ["5 Apr 1841", "Married Joseph Wilkes", "St Peter's, Wolverhampton"], ["1851", "Census", "Darlaston"]],
+    ev: [reg("Named as Phoebe's mother on her 1849 baptism, Darlaston.", "https://www.familysearch.org/ark:/61903/1:1:QL32-4KRC"), tree("L6JG-FPX", "Shared tree: maiden name Lloyd, married 5 Apr 1841, St Peter's Collegiate, Wolverhampton.")] },
+  { id: "johnfm", name: "John Frederick Marson", sex: "m", b: "12 Oct 1849", place: "St George's, Birmingham", conf: "probable",
+    father: "jamesmarson", mother: "sarahmarson",
+    story: "Born on 12 Oct 1849 in Birmingham, the son of James Marson, a gun stocker in Birmingham's famous Gun Quarter. He wasn't baptised until he was three, at St George's, on the same day as his sisters Caroline and Adelaine. He grew up to be an iron bedstead smith, married Hannah Harding from Herefordshire, and named his eldest sons Thomas George and John Frederick. In 1881 he told the census he was 27, but he was really 31.",
+    facts: [["12 Oct 1849", "Born", "Birmingham"], ["1851", "Census, aged 1 (indexed as 'Frank'), with parents James & Sarah", "St George's, Birmingham"], ["8 May 1853", "Baptised", "St George's, Birmingham"], ["Jan–Mar 1872", "Son Thomas George born", "Birmingham"], ["Jul–Sep 1873", "Son John Frederick born (mother née Harding)", "Aston"], ["1881", "Iron bedstead maker (smith), with wife Hannah and sons George (9), John (8), William (3) & Richard (baby)", "Aston"], ["1891", "Census with Hannah and children Alice, William, John F. & Thomas G.", "Aston"]],
+    ev: [reg("Baptised 8 May 1853, St George, Birmingham: John Frederick Marson, born 12 Oct 1849, son of James and Sarah Marson. His sisters Caroline (b. 1843) and Adelaine (b. 1851) were baptised the same day.", "https://www.familysearch.org/ark:/61903/1:1:NYRT-NDQ"),
+         cen(1851, "St George's, Birmingham: James Marson (44, gun stocker) and Sarah (45), with Emma (19), Sarah (13), Caroline (8) and a son aged 1 indexed as 'Frank', most likely 'Fred', meaning John Frederick.", "https://www.familysearch.org/ark:/61903/1:1:SGZ1-JSD"),
+         cen(1881, "Aston: John F. Marson, 27, iron bedstead maker (smith), born Birmingham. Wife Hannah (33, born Herefordshire), sons George (9), John (8), William (3), Richard (0).", "https://www.familysearch.org/ark:/61903/1:1:Q27N-8NGM"),
+         cen(1891, "Aston: John F. Marson, born c.1848 Worcestershire, with Hannah and children Alice, William, John F. and Thomas G.", "https://www.familysearch.org/ark:/61903/1:1:WLQG-HW2"), tree("G8MF-ZSN", "Shared tree profile. The birth year looks doubtful.")] },
+  { id: "jamesmsr", name: "James Marson", sex: "m", b: "c.1780", place: "Birmingham", conf: "probable",
+    story: "The earliest Marson found so far, Ethan's 6× great-grandfather. He and Martha baptised at least five children in Birmingham between 1806 and 1814, mostly at St Martin's in the Bull Ring, the town's ancient parish church. In those years Birmingham was booming as the 'toyshop of Europe', making buttons, buckles, guns and brassware.",
+    facts: [["1805–1814", "Children James, Martha, Joseph, Henry and Mary Ann baptised", "St Martin's, Birmingham"]],
+    ev: [reg("Father of James (b. 26 Dec 1805), Martha (1807), Joseph (b. 23 Aug 1809), Henry (1812) and Mary Ann (b. 1 May 1814), all baptised in Birmingham to James and Martha Marson.", "https://www.familysearch.org/ark:/61903/1:1:NYBG-DFS")] },
+  { id: "marthamarson", name: "Martha Marson", sex: "f", b: "c.1785", place: "Birmingham", conf: "probable",
+    story: "Mother of at least five children baptised in Birmingham between 1806 and 1814. Her maiden name hasn't been found. Her marriage to James (c.1800–1805) isn't in the free indexes.",
+    facts: [["1805–1814", "Five children baptised", "Birmingham"]],
+    ev: [reg("Named as mother on the baptisms of James (1806), Martha (1807), Joseph (1809), Henry (1812) and Mary Ann (1814) Marson, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:J3ND-YLQ")] },
+  { id: "jamesmarson", name: "James Marson", sex: "m", b: "26 Dec 1805", place: "Birmingham", conf: "probable",
+    father: "jamesmsr", mother: "marthamarson",
+    story: "A gun stocker: the craftsman who shaped and fitted the wooden stock of a gun. In the 1850s Birmingham's Gun Quarter, around St Mary's and Steelhouse Lane, made most of Britain's guns, including muskets for the army and for export around the world. James was born in Birmingham around 1807 and raised at least six children in St George's parish. He was born on 26 Dec 1805, the son of James and Martha Marson of St Martin's parish. His younger brother Henry (baptised 1812) was living with him in 1851, and that's what links the two families. He and Sarah had at least seven children over 24 years: James Heath (1827), Emma (c.1832), Mary Ann (1836), Sarah (1838), Caroline (1843), John Frederick (1849) and Adelaine (1851). The family name was sometimes written 'Marston' by the clergy.",
+    sib: [["Martha Marson", "Sister · bapt. 1807"], ["Joseph Marson", "Brother · b. 23 Aug 1809"], ["Henry Marson", "Brother · bapt. 27 Jul 1812, living with James in 1851"], ["Mary Ann Marson", "Sister · b. 1 May 1814"]],
+    facts: [["26 Dec 1805", "Born", "Birmingham"], ["4 Mar 1806", "Baptised", "Birmingham"], ["23 Apr 1827", "Son James Heath born", "Birmingham"], ["1836 & 1838", "Daughters Mary Ann and Sarah baptised (as 'Marston')", "St Philip's, Birmingham"], ["1851", "Gun stocker", "St George's, Birmingham"], ["8 May 1853", "Had Caroline, John Frederick and Adelaine baptised", "St George's, Birmingham"], ["1871", "Still living", "Birmingham"]],
+    ev: [reg("Baptised 4 Mar 1806, Birmingham: James Marson, born 26 Dec 1805, son of James and Martha Marson.", "https://www.familysearch.org/ark:/61903/1:1:NYBG-DFS"),
+         reg("His brother Henry Marson was baptised 27 Jul 1812, St Martin's, Birmingham, son of James and Martha. The Henry Marson (38) in James's 1851 household matches.", "https://www.familysearch.org/ark:/61903/1:1:J3ND-YLQ"),
+         reg("Children baptised to James and Sarah Marston: James Heath (b. 23 Apr 1827, bapt. 1830), Mary Ann (1836, St Philip's) and Sarah (b. 19 Mar 1838, St Philip's).", "https://www.familysearch.org/ark:/61903/1:1:JWDN-J5S"),
+         cen(1851, "James Marson, 44, head, gun stocker, born Birmingham. Wife Sarah (45) and children Emma, Sarah, Caroline and the baby 'Frank' (John Frederick).", "https://www.familysearch.org/ark:/61903/1:1:SGZ1-JSD"),
+         reg("Father of Caroline, John Frederick and Adelaine Marson, all baptised 8 May 1853, St George, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:NYRT-NDQ"),
+         cen(1871, "Adeline Marson, 19, living with parents James and Sarah, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:V5YP-VG8")] },
+  { id: "sarahmarson", name: "Sarah Marson", maiden: "Heath? / Musson?", sex: "f", b: "c.1806", place: "Birmingham", conf: "probable",
+    story: "Born in Birmingham around 1806. There are two clues to her maiden name. Her first son was christened James HEATH Marston (1827), and a middle name like that was often the mother's surname. And one index of her daughter Caroline's baptism gives her as Sarah Musson. Their marriage (c.1825–26, Birmingham) would settle it.",
+    facts: [["c.1806", "Born", "Birmingham"], ["1851", "Census, with James and children", "St George's, Birmingham"], ["1871", "Still living", "Birmingham"]],
+    ev: [cen(1851, "Sarah Marson, 45, wife of James, born Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:SGZ1-JSD"), reg("Caroline Marson's baptism (8 May 1853) lists her mother as Sarah Musson in one index.", "https://www.familysearch.org/ark:/61903/1:1:QGDL-4FLC")] },
+  { id: "hannahm", name: "Hannah Marson", maiden: "Harding", sex: "f", b: "c.1848", place: "Herefordshire", conf: "confirmed",
+    story: "Hannah Harding was born in Herefordshire around 1848 (the census enumerator's spelling of the village is hard to read). She raised at least six children in Aston with John F. Marson, an iron bedstead smith. Their eldest son George, Ethan's 4× great-grandfather, isn't in the birth index under Marson, so he may have been born before his parents married and registered as George Harding. No Marson–Harding marriage has turned up in the free indexes yet.",
+    facts: [["c.1848", "Born", "Herefordshire"], ["1881 & 1891", "Census", "Aston"]],
+    ev: [{ k: "bmd", t: "GRO online birth index (found by Ethan): John Frederick Marson, registered Jul–Sep 1873, Aston, mother's maiden name HARDING. He's the John (8) in the 1881 household.", ref: "1873 S Quarter · Aston · Vol 6d · Page 290", url: "https://www.gro.gov.uk/gro/content/certificates/" },
+         cen(1881, "Hannah Marson, 33, wife, born Herefordshire, Aston.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-8NGM"), tree("G8MX-B4Y", "Shared tree profile.")] },
+  { id: "clara", name: "Clara Marion Peak", sex: "f", b: "c.1896", d: "early 1946", place: "Ladywood, Birmingham", conf: "confirmed",
+    father: "jamespeak", mother: "janepeak",
+    facts: [["c.1896", "Born", "Ladywood, Birmingham"], ["1901", "Census with parents", "Birmingham"], ["1911", "Census with parents", "Birmingham"], ["Dec 1915", "Married Samuel Marson", "Birmingham"], ["Jan–Mar 1946", "Died, aged 50, still named Marson", "Birmingham"]],
+    sib: [["James Peak", "Brother · b. c.1894"], ["John Alfred Peak", "Brother"], ["Florence Peak", "Sister"]],
+    ev: [cen(1911, "Clara Marion Peak, born c.1896 Ladywood, daughter of James and Jane Peak."), cen(1901, "In the household of James and Jane Peak, Birmingham."),
+         bmd("Marriage registered Oct–Dec 1915, Birmingham.", "Vol 6d · Page 681"),
+         bmd("Death registered Jan–Mar 1946, Birmingham: Clara M. Marson, aged 50.", "Vol 6d · Page 259")] },
+  { id: "jfitz", name: "James Frederick Fitzpatrick", sex: "m", b: "c.1874", place: "Wolverhampton", conf: "confirmed",
+    father: "jamesf", mother: "annief",
+    facts: [["15 Nov 1874", "Baptised, St Mark's Church", "Born at 30 St Mark's Street, Wolverhampton"], ["1881", "Census with parents", "Wolverhampton"], ["1904", "Married Ada Rudge", "Aston"], ["1911", "Census", "Birmingham"]],
+    sib: [["Annie Fitzpatrick", "Sister · b. c.1871"], ["William Henry Fitzpatrick", "Brother · b. c.1872"], ["Edith Mary Fitzpatrick", "Sister · b. c.1878"], ["Florence Fitzpatrick", "Sister · b. 1880/81"], ["Arthur Fitzpatrick", "Brother"], ["Ernest Fitzpatrick", "Brother"]],
+    ev: [reg("Baptised 15 November 1874, St Mark's, Wolverhampton. Parents James and Annie. Born at 30 St Mark's Street."),
+         cen(1881, "Jas Frederick Fitzpatrick, Wolverhampton, with parents James and Annie and four siblings."),
+         bmd("Marriage registered Jul–Sep 1904, Aston: James Frederick Fitzpatrick to Ada Rudge.", "Vol 6d · Page 689"),
+         cen(1911, "Birmingham. Married 1904 (wife transcribed as 'Arthur'), with children Frederick, Ernest Norman and Nellie Jane.")] },
+  { id: "ada", name: "Ada Fitzpatrick", maiden: "Rudge", sex: "f", b: "c.1876", conf: "confirmed",
+    facts: [["1904", "Married James Frederick Fitzpatrick", "Aston"], ["Jan–Mar 1952?", "Possible death, aged 76", "Birmingham"]],
+    ev: [bmd("Marriage registered Jul–Sep 1904, Aston.", "Vol 6d · Page 689"),
+         bmd("Possible death: Ada Fitzpatrick, aged 76 (so born c.1876), registered Jan–Mar 1952, Birmingham. The only Ada Fitzpatrick of the right age in Birmingham.", "Vol 9c · Page 335")] },
+  { id: "jwt1881", name: "James William Trueman", sex: "m", b: "c.1881", place: "Birmingham", conf: "confirmed",
+    facts: [["c.1881", "Born", "Birmingham"], ["c.1906", "Married Mary", ""], ["1911", "Silversmith in an electro-plate works, living in Deritend", "Birmingham"]],
+    story: "A silversmith. In 1911 he worked in Birmingham's electro-plating trade, which made silver-plated cutlery, teapots and trophies for the world from the Jewellery Quarter and Deritend. He lived in Deritend with Mary and their two children. His own parents haven't been found yet.",
+    ev: [cen(1911, "James William Trueman, 30, head, silversmith (electro-plate manufacturer), born Birmingham, married 1906. Wife Mary, 30, born Lichfield; children Mary (4) and James William (1). Deritend, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:XWZ9-V24"), tree("GND5-FBS", "Shared tree entry (no parents yet)."),
+         { k: "bmd", t: "No James (William) Trueman birth in Birmingham or Aston 1879–83 in the GRO index (checked by Ethan). The Romford 1881 James William (mother Cartwright) is a different man who lived in Barking. Possible lead: James TRUMAN, registered Oct–Dec 1879, Birmingham, mother's maiden name MAYO. He'd be the son of Alfred Thomas Truman and Ada Anne Mayo (married 7 Dec 1873, Aston), who were in Maidstone, Kent by 1881. Not proven.", ref: "1879 D Quarter · Birmingham · Vol 6d · Page 181", url: "https://www.gro.gov.uk/gro/content/certificates/" }] },
+  { id: "maryt", name: "Mary Trueman", maiden: "Carthy", sex: "f", b: "c.1881", place: "Lichfield, Staffordshire", conf: "confirmed",
+    story: "Mary Carthy was born around 1881 near the cathedral city of Lichfield, Staffordshire, where a Carthy family (probably of Irish descent) was living in the 1870s–80s. She married James William Trueman around 1906 and named her first daughter Mary Ann. Two Lichfield girls could be her: Alice Mary Carthy, baptised 1879 at Burntwood (daughter of William and Mary), and Mary Ann Carthy, baptised 1884 at Lichfield St Mary (daughter of Charles and Mary Ann). Mary Ann matches her daughter's name, but Alice Mary is closer in age. Their marriage record hasn't been found yet.",
+    facts: [["c.1881", "Born", "Lichfield, Staffordshire"], ["c.1906", "Married James William Trueman", ""], ["Apr–Jun 1907", "Daughter Mary Ann born", "Aston"], ["1911", "Census", "Deritend, Birmingham"]],
+    ev: [{ k: "bmd", t: "GRO online birth index (found by Ethan): Mary Ann Trueman, registered Apr–Jun 1907, Aston, mother's maiden name CARTHY.", ref: "1907 J Quarter · Aston · Vol 6d · Page 389", url: "https://www.gro.gov.uk/gro/content/certificates/" },
+         cen(1911, "Mary Trueman, wife, 30, born Lichfield, Staffordshire.", "https://www.familysearch.org/ark:/61903/1:1:XWZ9-V24"),
+         reg("Candidate 1: Alice Mary Carthy, baptised 11 Apr 1879, Burntwood (Lichfield), parents William and Mary. 1881 census: Burntwood, with siblings John, Lucy H., Joseph and William.", "https://www.familysearch.org/ark:/61903/1:1:JQN2-BMG"),
+         reg("Candidate 2: Mary Ann Carthey, baptised 9 Apr 1884, Lichfield, parents Charles and Mary Ann. 1891 census: Lichfield St Mary.", "https://www.familysearch.org/ark:/61903/1:1:QL3L-LLVP")] },
+  { id: "henryh", name: "Henry George Hathaway", sex: "m", b: "c.1885", d: "early 1920", place: "St Thomas, Birmingham", conf: "confirmed",
+    father: "richards", mother: "maryanne",
+    story: "Henry died young, in early 1920 at just 35, leaving Rose with six children, the youngest less than a year old. This was just after the 1918–19 flu pandemic, which killed many young adults, though his cause of death is unknown. A death certificate would say.",
+    facts: [["c.1885", "Born", "St Thomas, Birmingham"], ["1891 & 1901", "Census with parents", "Birmingham"], ["1910/11", "Married Rose Louisa Hewitt", "Birmingham"], ["1911", "Census, with baby Hilda", "Birmingham"], ["Jan–Mar 1920", "Died, aged 35", "Birmingham"]],
+    sib: [["John Henry Hathaway", "Brother · b. c.1884"], ["Hetty Kate Hathaway", "Sister"], ["Alfred O. Hathaway", "Brother"], ["Charles B. Hathaway", "Brother"], ["William C. Hathaway", "Brother"], ["Annie Hathaway", "Sister"], ["George E. Hathaway", "Brother"], ["Richard S. Hathaway", "Brother"], ["Mary E. Hathaway", "Sister"]],
+    ev: [cen(1911, "Henry George Hathaway, born c.1885, son of Richard Samuel and Mary Ann, wife Rose Louisa, daughter Hilda Beatrice."),
+         bmd("Marriage registered Jan–Mar 1911, Birmingham: Henry G. Hathaway to Rose L. Hewitt.", "Vol 6d · Page 151"),
+         cen(1901, "In Richard S. Hathaway's household, Birmingham."),
+         bmd("Death registered Jan–Mar 1920, Birmingham: Henry G. Hathaway, aged 35.", "Vol 6d · Page 413")] },
+  { id: "rose", name: "Rose Louisa Hathaway", maiden: "Hewitt", sex: "f", b: "c.1883", d: "late 1953", place: "Birmingham", conf: "probable",
+    father: "henryhew", mother: "rosehew",
+    story: "Rose had sisters called Lillian and Elsie. Both names turn up again in the family: her daughter was Lilian, and her granddaughter's mother-in-law was Elsie. Widowed at about 37 when Henry died in 1920, she brought up six children alone and never remarried. She died in 1953 still a Hathaway, when Nan Jillian was 10.",
+    facts: [["c.1883", "Born", "Birmingham"], ["1891 & 1901", "Census with parents Henry & Rose", "Birmingham"], ["1910/11", "Married Henry George Hathaway", "Birmingham"], ["1920", "Widowed", "Birmingham"], ["Oct–Dec 1953", "Died, aged 71", "Birmingham"]],
+    sib: [["Flora Hewitt", "Sister"], ["Lillian Hewitt", "Sister"], ["Elsie Hewitt", "Sister"], ["Alfred Hewitt", "Brother"], ["Ellen Hewitt", "Sister"], ["Harry Hewitt", "Brother"], ["Frances Hewitt", "Sister"]],
+    ev: [bmd("Marriage registered Jan–Mar 1911, Birmingham: Rose L. Hewitt.", "Vol 6d · Page 151"),
+         cen(1891, "Rose Hewitt, born c.1883, with parents Henry and Rose Hewitt, Birmingham. Probable match."),
+         cen(1911, "Henry G. Hathaway's wife: Rose Louisa."),
+         bmd("Death registered Oct–Dec 1953, Birmingham: Rose L. Hathaway, aged 71.", "Vol 9c · Page 277")] },
+  { id: "thomasc", name: "Thomas Carwardine", sex: "m", b: "9 Apr 1882", d: "1971", place: "Birmingham", conf: "confirmed",
+    father: "alfredc", mother: "ellenc",
+    story: "Thomas had a younger brother called Leonard, and named his own son Leonard. That link connects him to Alfred and Ellen Carwardine.",
+    facts: [["9 Apr 1882", "Born", "Birmingham"], ["1891", "Census with parents", "Birmingham"], ["1911", "Census with parents", "Worcestershire"], ["Dec 1918", "Married Emily A. Stephens", "Birmingham"], ["Apr–Jun 1971", "Died, aged 89", "Birmingham"]],
+    sib: [["Edgar Carwardine", "Brother"], ["Annie Carwardine", "Sister"], ["Leonard Carwardine", "Brother · b. c.1884, d. 1966, Surrey"], ["Fred Carwardine", "Brother"]],
+    ev: [bmd("Marriage registered Oct–Dec 1918, Birmingham: Thomas Carwardine to Emily A. Stephens.", "Vol 6d · Page 380"),
+         cen(1911, "Thomas Carwardine, born c.1883 Birmingham, with parents Alfred and Ellen, Worcestershire."),
+         fam("Family confirmed Thomas and Emily as Anthea's grandparents."),
+         dth("Death registered Apr–Jun 1971, Birmingham: Thomas Carwardine, born 9 Apr 1882. Ref 9c/1344. Nan Anthea would have been about 22.")] },
+  { id: "emily", name: "Emily A. Carwardine", maiden: "Stephens", sex: "f", b: "c.1890", d: "1964", conf: "confirmed",
+    facts: [["c.1890", "Born", ""], ["1918", "Married Thomas Carwardine", "Birmingham"], ["Jul–Sep 1964", "Died, aged 74", "Birmingham"]],
+    ev: [bmd("Marriage registered Oct–Dec 1918, Birmingham.", "Vol 6d · Page 380"), fam("Confirmed by family."),
+         bmd("Death registered Jul–Sep 1964, Birmingham: Emily A. Carwardine, aged 74. The only Emily A. Carwardine death in the index.", "Vol 9c · Page 577")] },
+
+  /* ---- 3x great ---- */
+  { id: "jamespeak", name: "James Peak", sex: "m", b: "c.1870", place: "Leicester", conf: "confirmed",
+    father: "thomaspeak", mother: "maryanntaylor",
+    story: "Born in Leicester around 1870, the eighth of ten children of Thomas Peak, an engine fitter. The family followed Thomas's work around the Black Country (Oldbury, West Bromwich) and settled in Birmingham by 1872. James had a little sister called Clara, and he later gave his own daughter the same name. In early 1893 he married Jane Ambridge, a chimney sweep's daughter, at Aston.",
+    facts: [["c.1870", "Born", "Leicester"], ["1881", "Census, aged 11, with parents Thomas & Mary Ann and 8 siblings", "Birmingham"], ["Jan–Mar 1893", "Married Jane Ambridge", "Aston"], ["1901", "Census, head of household", "Birmingham"], ["1911", "Census", "Ladywood, Birmingham"]],
+    sib: [["Silena Peak", "Sister · b. c.1857"], ["Mary Jane Peak", "Sister · b. c.1860"], ["William Edward Peak", "Brother · b. c.1861, Oldbury"], ["Alfred E. Peak", "Brother · b. c.1863, Oldbury"], ["Arthur Peak", "Brother · b. c.1864, West Bromwich"], ["Walter Peak", "Brother · b. c.1866, West Bromwich"], ["Thomas E. Peak", "Brother · b. c.1868, West Bromwich"], ["Clara Peak", "Sister · b. c.1872, Birmingham"], ["Charles Peak", "Brother · b. c.1875, Birmingham"]],
+    ev: [cen(1901, "James Peak, born c.1870 Leicestershire, wife Jane, children James, Clara M. and John A."),
+         cen(1881, "James Peak, 11, born Leicester, son of Thos Peak (47, engine fitter, born Wigston) and Mary Ann (48, born Leicester), Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-SLDB"),
+         bmd("Marriage registered Jan–Mar 1893, Aston: James Peak to Jane Ambridge. She's the only Jane on the page.", "Vol 6d · Page 261"),
+         tree("GZG3-BMG", "Shared tree profile with his parents and nine siblings.")] },
+  { id: "janepeak", name: "Jane Peak", maiden: "Ambridge", sex: "f", b: "Jun 1870", place: "Bilston, Staffordshire", conf: "confirmed",
+    father: "johnambridge", mother: "emmaburley",
+    story: "A chimney sweep's daughter from Bilston in the Black Country. Her family moved to Aston when she was small. She married James Peak in 1893 and had at least five children, including Clara Marion, Ethan's 3× great-grandmother on Dad's side.",
+    facts: [["Apr–Jun 1870", "Born", "Bilston (Wolverhampton district)"], ["1871", "Living", "Bilston"], ["1881", "Census, aged 10, scholar", "Aston"], ["Jan–Mar 1893", "Married James Peak", "Aston"], ["1901 & 1911", "Census with James and children", "Birmingham"], ["Oct–Dec 1911", "Son Sidney C. born", "Birmingham"]],
+    sib: [["Emma Ambridge", "Sister · b. c.1868, Bilston"]],
+    ev: [bmd("Marriage registered Jan–Mar 1893, Aston: Jane Ambridge to James Peak.", "Vol 6d · Page 261"),
+         bmd("Birth registered Apr–Jun 1870, Wolverhampton (which includes Bilston): Jane Ambridge.", "Vol 6b · Page 608"),
+         bmd("Birth registered Oct–Dec 1911, Birmingham: Sidney C. Peak, mother's maiden name Ambridge. This proves James's wife was an Ambridge.", "Vol 6d · Page 6"),
+         cen(1881, "Jane Ambridge, 10, born Bilston, daughter of John (38, chimney sweep, born Somerset) and Emma (45, born Birmingham), Aston.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-XWPD"),
+         tree("LHNS-73T", "Shared tree profile. Careful: it wrongly gives her a Spanish husband, but her parents are right.")] },
+  { id: "thomaspeak", name: "Thomas Peak", sex: "m", b: "c.1834", place: "Wigston, Leicestershire", conf: "probable",
+    story: "An engine fitter, a skilled Victorian mechanic who built and repaired steam engines. Born in Wigston just outside Leicester, he moved his big family to wherever the work was: Oldbury, West Bromwich, back to Leicester, and finally Birmingham, the workshop of the world.",
+    facts: [["c.1834", "Born", "Wigston, Leicestershire"], ["Oct–Dec 1855", "Married Mary Ann Taylor", "Leicester"], ["c.1861–63", "Living", "Oldbury"], ["c.1864–68", "Living", "West Bromwich"], ["c.1870", "Living (son James born)", "Leicester"], ["1881", "Engine fitter", "Birmingham"]],
+    ev: [cen(1881, "Thos Peak, 47, head, engine fitter, born Wigston, Leicestershire. Wife Mary Ann and 9 children, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-SLDB"), tree("GZGQ-9RJ", "Shared tree profile.")] },
+  { id: "maryanntaylor", name: "Mary Ann Peak", maiden: "Taylor", sex: "f", b: "c.1833", place: "Leicester", conf: "probable",
+    story: "Born in Leicester. She had ten children over about 18 years while following her husband's work around the Midlands.",
+    facts: [["c.1833", "Born", "Leicester"], ["Oct–Dec 1855", "Married Thomas Peak", "Leicester"], ["1881", "Census with Thomas and 9 children", "Birmingham"]],
+    ev: [cen(1881, "Mary Ann Peak, 48, wife, born Leicester.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-SLDB"), bmd("Marriage registered Oct–Dec 1855, Leicester: Thomas Peak, with a Taylor bride on the same page. This backs up the maiden name Taylor.", "Vol 7a · Page 390"), tree("GZG3-25D", "Shared tree gives her maiden name as Taylor.")] },
+  { id: "johnambridge", name: "John Ambridge", sex: "m", b: "c.1842", place: "Somerset", conf: "confirmed",
+    story: "A chimney sweep. That was hard, filthy work, and in his own childhood boys as young as 5 were still sent up chimneys. Born in Somerset (the census says 'Tartin', perhaps Taunton), he came north to the Black Country, married Emma Burley in Dudley in 1867, lived in Bilston, then moved the family to Aston.",
+    facts: [["c.1842", "Born", "Somerset ('Tartin', perhaps Taunton)"], ["Apr–Jun 1867", "Married Emma Burley", "Dudley"], ["1871", "Living", "Bilston"], ["1881", "Chimney sweep", "Aston"]],
+    ev: [bmd("Marriage registered Apr–Jun 1867, Dudley: John Ambridge to Emma Burley.", "Vol 6c · Page 124"),
+         cen(1881, "John Ambridge, 38, head, chimney sweep, born 'Tartin', Somerset. Wife Emma, daughters Emma and Jane, Aston.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-XWPD"), tree("9KCG-77X", "Shared tree profile.")] },
+  { id: "emmaburley", name: "Emma Ambridge", maiden: "Burley", sex: "f", b: "c.1835", place: "Birmingham", conf: "confirmed",
+    story: "Born in Birmingham, about seven years older than her husband John. Two young men from Bilston, Benjamin (20) and William Rowlands (17), were living with the family in 1881. They may have been relatives or lodgers.",
+    facts: [["c.1835", "Born", "Birmingham"], ["Apr–Jun 1867", "Married John Ambridge", "Dudley"], ["1881", "Census", "Aston"]],
+    ev: [bmd("Marriage registered Apr–Jun 1867, Dudley: Emma Burley to John Ambridge.", "Vol 6c · Page 124"),
+         cen(1881, "Emma Ambridge, 45, wife, born Birmingham, Aston.", "https://www.familysearch.org/ark:/61903/1:1:Q27N-XWPD"), tree("LHNS-774", "Shared tree profile.")] },
+  { id: "jamesf", name: "James Fitzpatrick", sex: "m", b: "Jul 1843", place: "Liverpool", conf: "confirmed",
+    father: "jamesf1819", mother: "maryhughes",
+    story: "A Liverpool plumber, son of an Irish immigrant from County Down. He married a Nottingham girl, Ann Watson, in 1869 and moved to Wolverhampton, where he raised at least seven children.",
+    facts: [["Jul 1843", "Born", "Liverpool"], ["1851", "Census with parents", "Liverpool"], ["27 Dec 1869", "Married Ann Watson", "St Nicholas, Nottingham"], ["1871–1891", "Plumber", "Wolverhampton"], ["1874", "Living at 30 St Mark's Street", "Wolverhampton"]],
+    sib: [],
+    ev: [cen(1881, "James Fitzpatrick, 38, plumber, born Liverpool. Wife Annie, 32, born Nottingham, and children Annie (10), William H (9), Jas Frederick (6), Edith Mary (3) and Florence (0).", "https://www.familysearch.org/ark:/61903/1:1:Q27F-94HC"),
+         reg("Father on James Frederick's 1874 baptism at St Mark's, Wolverhampton. Also on baptisms of Edith Mary, Florence, Arthur, Ernest and William Henry."),
+         tree("GQ93-RFH", "Shared tree profile, 14 sources: born July 1843 Liverpool, married Ann Watson 27 Dec 1869.")] },
+  { id: "annief", name: "Ann (Annie) Fitzpatrick", maiden: "Watson", sex: "f", b: "22 May 1848", d: "21 May 1936", place: "Nottinghamshire", conf: "confirmed",
+    father: "henrywatson", mother: "maryannwalker",
+    story: "Born in Nottinghamshire, Ann married James Fitzpatrick at St Nicholas' church, Nottingham, two days after Christmas 1869. She spent the rest of her life in Wolverhampton and died there in 1936, one day before her 88th birthday.",
+    facts: [["22 May 1848", "Born", "Nottinghamshire"], ["27 Dec 1869", "Married James Fitzpatrick", "St Nicholas, Nottingham"], ["1871–1891", "Census", "Wolverhampton"], ["1901–1911", "Census", "Heath Town, Wolverhampton"], ["21 May 1936", "Died, aged 87", "Wolverhampton"]],
+    ev: [cen(1881, "Annie Fitzpatrick, 32, born Nottingham, wife of James.", "https://www.familysearch.org/ark:/61903/1:1:Q27F-94HC"), reg("Mother on James Frederick's 1874 baptism."), tree("GHY5-C4Z", "Shared tree profile, 13 sources.")] },
+  { id: "jamesf1819", name: "James Fitzpatrick", sex: "m", b: "c.1819", place: "County Down, Ireland", conf: "probable",
+    father: "jamesf1792",
+    story: "The Irish root of your family. Born in County Down around 1819, James crossed the Irish Sea to Liverpool, as hundreds of thousands of Irish people did in the 1830s and 40s. He married a Salford girl, Mary Hughes, in 1840 and they had ten children. Their son James became a plumber in Wolverhampton.",
+    facts: [["c.1819", "Born", "County Down, Ireland"], ["1840", "Married Mary Hughes", "Liverpool"], ["1851", "Census", "Liverpool"], ["1871", "Census", "West Derby, Liverpool"]],
+    ev: [tree("GQN3-4KF", "Shared tree profile, 5 sources: born 1819 County Down, Ireland. Confirm the birthplace in the 1851 census, which should say 'Ireland'.")] },
+  { id: "maryhughes", name: "Mary Fitzpatrick", maiden: "Hughes", sex: "f", b: "c.1821", place: "Salford, Lancashire", conf: "probable",
+    father: "williamhughes", mother: "annmercer",
+    facts: [["c.1821", "Born", "Salford"], ["1840", "Married James Fitzpatrick", "Liverpool"], ["1851", "Census", "Liverpool"], ["1871", "Census", "West Derby"]],
+    ev: [tree("GHY5-WFZ", "Shared tree profile, 4 sources.")] },
+  { id: "jamesf1792", name: "James Fitzpatrick", sex: "m", b: "c.1792", place: "Ireland?", conf: "probable",
+    story: "The earliest Fitzpatrick found, almost certainly living in Ireland. The shared tree has no sources for him, so treat him as a lead to check.",
+    ev: [tree("GHY5-7DR", "Shared tree profile, no sources attached.")] },
+  { id: "williamhughes", name: "William Hughes", sex: "m", b: "c.1789", conf: "probable",
+    facts: [["1816", "Married Ann Mercer", ""]],
+    ev: [tree("GRPQ-3Q5", "Shared tree profile.")] },
+  { id: "annmercer", name: "Ann Hughes", maiden: "Mercer", sex: "f", b: "c.1797", d: "1840", conf: "probable",
+    facts: [["1816", "Married William Hughes", ""], ["1840", "Died, the year her daughter Mary married", ""]],
+    ev: [tree("PZ4F-FKY", "Shared tree profile.")] },
+  { id: "henrywatson", name: "Henry William Watson", sex: "m", b: "c.1818", place: "Nottingham", conf: "probable",
+    facts: [["2 Mar 1840", "Married Mary Ann Walker", "Nottingham"]],
+    ev: [tree("GHY5-5K6", "Shared tree profile.")] },
+  { id: "maryannwalker", name: "Mary Ann Watson", maiden: "Walker", sex: "f", place: "Nottingham", conf: "probable",
+    facts: [["2 Mar 1840", "Married Henry William Watson", "Nottingham"]],
+    ev: [tree("ML1Y-B1L", "Shared tree profile.")] },
+  { id: "richards", name: "Richard Samuel Hathaway", sex: "m", b: "1846", d: "1917", place: "Chipping Campden", conf: "confirmed",
+    father: "richardh", mother: "joyce",
+    story: "Born in the Cotswold town of Chipping Campden two years before his parents married. By the age of five he was living in Birmingham. He became a bricklayer and raised at least ten children there.",
+    facts: [["1846", "Born", "Chipping Campden, Gloucestershire"], ["1851", "Census, aged 5", "St Thomas, Birmingham"], ["1861", "Census", "Shipston-on-Stour"], ["Oct–Dec 1865", "Married Mary Anne Wigginton", "Shipston-on-Stour"], ["1891–1911", "Bricklayer", "Birmingham"], ["1917", "Died", "Birmingham"]],
+    ev: [cen(1851, "Richard S. Hathaway, 5, born Campden, in the household of Richard Hathaway (tailor) and Joyce.", "https://www.familysearch.org/ark:/61903/1:1:SG8M-15Z"),
+         cen(1911, "Richard Samuel Hathaway, born 1845 Campden, married 1865, wife Mary Ann."),
+         cen(1891, "Birmingham, with wife Mary Ann and nine children."),
+         bmd("Marriage registered Oct–Dec 1865, Shipston: Richard Samuel Hathaway and Mary Ann Wigginton.", "Vol 6d · Page 979"),
+         tree("MJV7-PBK", "Shared tree profile, 11 sources.")] },
+  { id: "maryanne", name: "Mary Anne Hathaway", maiden: "Wigginton", sex: "f", b: "c.1844", place: "Shipston-on-Stour", conf: "confirmed",
+    father: "benwig", mother: "susannahwatts",
+    story: "Born in Shipston-on-Stour and christened there on 10 Nov 1844. Her father, Benjamin Orange Wigginton, died when she was about 15. The family's unusual name 'Orange' was handed down for generations: her father and grandfather carried it, and Mary Anne gave it to two of her own sons, William Orange and Alfred Orange Hathaway. She married Richard Samuel Hathaway in Shipston in 1865, moved to Birmingham, and had at least ten children.",
+    facts: [["10 Nov 1844", "Christened", "Shipston-on-Stour"], ["Oct–Dec 1865", "Married Richard Samuel Hathaway", "Shipston-on-Stour"], ["1891", "Census with Richard and nine children", "Birmingham"], ["1901 & 1911", "Census", "Birmingham"]],
+    ev: [bmd("Marriage registered Oct–Dec 1865, Shipston: Richard Samuel Hathaway to Mary Ann Wigginton. Both names are on the same page.", "Vol 6d · Page 979"),
+         cen(1911, "Mary Ann Hathaway, born 1844 Shipston on Stour, married 1865, wife of Richard Samuel.", "https://www.familysearch.org/ark:/61903/1:1:XWZM-LDT"),
+         cen(1891, "Mary Ann Hathaway, born Shipston on Stour, with Richard Samuel and nine children, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:W2XH-6ZM"),
+         reg("Her sons' baptisms (Warwickshire parish registers) include Alfred Orange Hathaway and William Orange Hathaway, named after her father Benjamin Orange Wigginton."),
+         tree("M2X4-ZJX", "Shared tree: christened 10 Nov 1844 Shipston, daughter of Benjamin Orange Wiggington and Susannah.")] },
+  { id: "benwig", name: "Benjamin Orange Wigginton", sex: "m", b: "Mar 1818", d: "1859", place: "Butlers Marston, Warwickshire", conf: "probable",
+    father: "orangewig", mother: "maryannsarjeant",
+    story: "Christened at Butlers Marston, a village near Kineton, on 22 Mar 1818, and named after his father Orange. In 1841, aged 20, he was living with his parents on Shipston's High Street. The next year he married Susannah Watts at Leamington Spa. He died young, around 40, and was buried in August 1859.",
+    facts: [["22 Mar 1818", "Christened", "Butlers Marston, Warwickshire"], ["1841", "Living with parents, High Street", "Shipston-on-Stour"], ["6 Apr 1842", "Married Susannah Watts", "Royal Leamington Spa"], ["c.1844", "Daughter Mary Anne born", "Shipston-on-Stour"], ["1851", "Census", "Shipston-on-Stour"], ["16 Aug 1859", "Buried", "Shipston-on-Stour"]],
+    ev: [reg("Christened 22 Mar 1818, Butlers Marston: Benjamin Orange Wigington, parents Orange and Ann Wigington.", "https://www.familysearch.org/ark:/61903/1:1:JMFB-ZVV"),
+         reg("Married 6 Apr 1842, Royal Leamington Spa: Benjamin Orange Wigington, father Orange Wigington, to Susannah Watts.", "https://www.familysearch.org/ark:/61903/1:1:NVX5-1L9"),
+         cen(1841, "Shipston-on-Stour, High Street: Orange Wigington (55), Mary (60), Benjamin (20).", "https://www.familysearch.org/ark:/61903/1:1:MQ5G-WWF"),
+         tree("M2XD-2QR", "Shared tree profile, 10 sources. Buried 16 Aug 1859.")] },
+  { id: "susannahwatts", name: "Susannah Wigginton", maiden: "Watts", sex: "f", b: "c.1817", conf: "probable",
+    facts: [["c.1817", "Born", ""], ["6 Apr 1842", "Married Benjamin Orange Wigginton", "Royal Leamington Spa"], ["1859", "Widowed", "Shipston-on-Stour"]],
+    ev: [reg("Married 6 Apr 1842, Royal Leamington Spa, to Benjamin Orange Wigington.", "https://www.familysearch.org/ark:/61903/1:1:NVX5-1L9"), tree("M2XD-274", "Shared tree profile.")] },
+  { id: "orangewig", name: "Orange Wigginton", sex: "m", b: "Aug 1783", d: "1851", place: "Shipston-on-Stour", conf: "probable",
+    father: "williamwig", mother: "annsimonds",
+    story: "Yes, his first name really was Orange! It was probably a family surname used as a first name. He was christened in Shipston on 6 Aug 1783 and described himself as a land proprietor in 1851, which means he owned property. That makes him one of the better-off people in the tree. In 1841 his household on Shipston's High Street also included Ann Pratt, aged 80, who may have been his widowed mother. He died in 1851, and the name Orange carried on in the family for another 150 years.",
+    facts: [["6 Aug 1783", "Christened", "Shipston-on-Stour"], ["3 Oct 1805", "Married Mary Ann Sarjeant", "Kineton, Warwickshire"], ["1818", "Son Benjamin Orange christened", "Butlers Marston"], ["1841", "Living, High Street", "Shipston-on-Stour"], ["1851", "Land proprietor", "Shipston-on-Stour"], ["1851", "Died", "Shipston-on-Stour"]],
+    ev: [cen(1841, "Orange Wigington, 55, born Worcestershire, High Street, Shipston, with Mary (60) and Benjamin (20).", "https://www.familysearch.org/ark:/61903/1:1:MQ5G-WWF"),
+         reg("Married 3 Oct 1805, Kineton: Orange Wigington to Mary Ann Sarjeant.", "https://www.familysearch.org/ark:/61903/1:1:NV7J-482"),
+         { k: "death", t: "Death registered 1851, Shipston-on-Stour: Orange Wigington.", url: "https://www.familysearch.org/ark:/61903/1:1:2NX3-P7F" },
+         tree("M2X4-FWX", "Shared tree: christened 6 Aug 1783 Shipston; land proprietor in 1851; son of William Wigington and Ann Simonds.")] },
+  { id: "maryannsarjeant", name: "Mary Ann Wigginton", maiden: "Sarjeant", sex: "f", b: "c.1781", conf: "probable",
+    facts: [["c.1781", "Born", ""], ["3 Oct 1805", "Married Orange Wigginton", "Kineton, Warwickshire"], ["1841", "Census, aged 60", "Shipston-on-Stour"]],
+    ev: [reg("Married 3 Oct 1805, Kineton, to Orange Wigington.", "https://www.familysearch.org/ark:/61903/1:1:NV7J-482"), cen(1841, "Mary Wigington, 60, wife of Orange, Shipston.", "https://www.familysearch.org/ark:/61903/1:1:MQ5G-WWF")] },
+  { id: "williamwig", name: "William Wigington", sex: "m", b: "c.1755", conf: "probable",
+    story: "Married Ann Simonds in Shipston-on-Stour in 1782, and their son Orange was born the next year. So far he's the earliest known ancestor on this branch.",
+    facts: [["16 Sep 1782", "Married Ann Simonds", "Shipston-on-Stour"], ["1783", "Son Orange christened", "Shipston-on-Stour"]],
+    ev: [tree("M2X4-F49", "Shared tree: married Ann Simonds 16 Sep 1782, Shipston-on-Stour. Not yet checked against the parish register.")] },
+  { id: "annsimonds", name: "Ann Wigington", maiden: "Simonds", sex: "f", b: "c.1760", conf: "probable",
+    facts: [["16 Sep 1782", "Married William Wigington", "Shipston-on-Stour"]],
+    ev: [tree("MFBD-RMN", "Shared tree profile. A Sophia Simmonds (15) was living in Orange's house in 1841, possibly a relative.")] },
+  { id: "henryhew", name: "Henry Hewitt", sex: "m", conf: "probable",
+    ev: [cen(1891, "Father of Rose Hewitt (born c.1883), Birmingham.")] },
+  { id: "rosehew", name: "Rose Hewitt", sex: "f", conf: "probable",
+    ev: [cen(1891, "Mother of Rose Hewitt (born c.1883), Birmingham.")] },
+  { id: "alfredc", name: "Alfred Carwardine", sex: "m", b: "1848", d: "1925", place: "Birmingham", conf: "confirmed",
+    father: "thomas1812", mother: "esther",
+    facts: [["20 Aug 1848", "Baptised", "St Thomas, Birmingham"], ["1851–1871", "Census with parents", "Birmingham"], ["1876", "Married Ellen", ""], ["1881–1891", "Census", "Birmingham"], ["1901–1911", "Census", "Worcestershire"], ["1925", "Died", "Warwickshire"]],
+    sib: [["Esther Carwardine", "Sister"], ["Emily Carwardine", "Sister"], ["Sarah Carwardine", "Sister"], ["Emma Carwardine", "Sister"], ["Thomas Carwardine", "Half-brother · b. 1839"], ["Jane Carwardine", "Half-sister · b. 1841"], ["William Carwardine", "Half-brother · b. 1844"]],
+    ev: [reg("Baptised 20 August 1848, St Thomas, Birmingham. Parents Thomas and Esther Carwardine."),
+         cen(1871, "Birmingham, with parents Thomas and Esther and sisters Esther, Emily and Sarah."),
+         cen(1911, "Worcestershire, married 1876, wife Ellen, children Thomas, Edgar, Annie and Leonard."),
+         dth("Death registered 1925, Warwickshire, born 1848.")] },
+  { id: "ellenc", name: "Ellen Carwardine", sex: "f", b: "c.1848", conf: "confirmed",
+    facts: [["1876", "Married Alfred Carwardine", ""]],
+    ev: [cen(1901, "Wife of Alfred Carwardine, Worcestershire.")] },
+
+  /* ---- 4x great ---- */
+  { id: "richardhsr", name: "Richard Hathaway", sex: "m", b: "c.1790s?", place: "Todenham area, Gloucestershire", conf: "probable",
+    story: "The father of Richard the tailor and of John Hathaway. Both sons' wedding records at Stretton-on-Fosse (1848 and 1860) name their father as Richard Hathaway. His sons were born in Todenham in the 1820s. He's the furthest-back man on your Hathaway line. Nan Jillian's mum, Lilian, was born a Hathaway. One candidate is a Richard Hathaway (1789–1853), born in Stow-on-the-Wold, who farmed at Stretton-on-Fosse and married Elizabeth Gibbs in 1811, but nothing yet links him to the Todenham boys. Shakespeare's wife Anne Hathaway came from Shottery, about 12 miles north, so a link is possible but completely unproven. Hathaway was a common name in this part of the Cotswolds.",
+    facts: [["1820s", "Sons Richard (c.1823), Edmund (c.1824) and John (c.1826) born", "Todenham, Gloucestershire"], ["1848", "Named as father at son Richard's wedding", "Stretton-on-Fosse"], ["1860", "Named as father at son John's wedding", "Stretton-on-Fosse"]],
+    ev: [reg("Named as father on Richard Hathaway's marriage, 18 Dec 1848, Stretton-on-Fosse.", "https://www.familysearch.org/ark:/61903/1:1:XXBY-5X9"),
+         reg("Named as father on John Hathaway's marriage to Caroline Rouse, 28 Aug 1860, Stretton-on-Fosse.", "https://www.familysearch.org/ark:/61903/1:1:XXBY-5G5"),
+         { k: "census", t: "Candidate, NOT proven: Richard Hathaway, retired farmer, widower, 60, born Stow-on-the-Wold, Stretton-on-Fosse, 1851. Died 7 Aug 1853. Married Elizabeth Gibbs 1811. FreeREG: a Richard Hathaway, son of Richard and Elizabeth, was baptised 10 May 1789 at Broadwell, by Stow-on-the-Wold, where a large Hathaway family lived 1789–1810.", url: "https://www.familysearch.org/ark:/61903/1:1:SGZP-G9Y" }] },
+  { id: "richardh", name: "Richard Hathaway", sex: "m", b: "c.1823", d: "1877", place: "Todenham, Gloucestershire", conf: "confirmed",
+    father: "richardhsr",
+    story: "A village tailor, born in the tiny Cotswold village of Todenham, just south of Shipston. At 18 he was lodging in Chipping Campden, probably learning his trade. He moved his young family to Birmingham around 1850, then went back to the countryside around Shipston-on-Stour and Ilmington. Two other Todenham-born Hathaways, Edmund (b. c.1824) and John (b. c.1826), lived in Stretton-on-Fosse, where Richard married. They were probably his brothers.",
+    sib: [["John Hathaway", "Brother · b. c.1826, Todenham. Married Caroline Rouse 1860, Stretton-on-Fosse, father Richard Hathaway"], ["Edmund Hathaway", "Probable brother · b. c.1824, Todenham"]],
+    facts: [["c.1823", "Born", "Todenham, Gloucestershire"], ["1841", "Living", "Chipping Campden"], ["18 Dec 1848", "Married Joyce Truby", "Stretton-on-Fosse"], ["1851", "Tailor", "St Thomas, Birmingham"], ["1861", "Census", "Shipston-on-Stour"], ["1871", "Census", "Ilmington"], ["1877", "Died", ""]],
+    ev: [cen(1851, "Richard Hathaway, 27, tailor, head of household, St Thomas, Birmingham.", "https://www.familysearch.org/ark:/61903/1:1:SG8M-15Z"),
+         reg("Married 18 Dec 1848, Stretton-on-Fosse: Richard Hathaway, bachelor, of Stretton, father Richard Hathaway, to Joyce Truby, father George Truby.", "https://www.familysearch.org/ark:/61903/1:1:XXBY-5X9"),
+         cen(1861, "Richard Hathaway, born c.1824 Todenham, Gloucestershire, Shipston-on-Stour.", "https://www.familysearch.org/ark:/61903/1:1:M7PL-BXZ"),
+         cen(1871, "Richard Hathaway, born Todenham, Ilmington, with Joice and children Mary C., Alice, Phebe, George O. and Annie.", "https://www.familysearch.org/ark:/61903/1:1:KD8G-YDL"),
+         cen(1841, "Richard Hathaway, 18, lodging with Stephen and Mary Silvester, Chapel Yard, Chipping Campden.", "https://www.familysearch.org/ark:/61903/1:1:M7M3-NWF"),
+         { k: "census", t: "Possible: Chelsea Pensioners' service record of a Richard Hathaway, private, born 1823 Warwickshire, enlisted aged 21, linked to Shipston-on-Stour. Not proven to be him.", url: "https://www.familysearch.org/ark:/61903/1:1:V5H5-NPL" },
+         tree("MNQK-P2Z", "Shared tree profile, 25 sources. Its parents for him are unsourced.")] },
+  { id: "joyce", name: "Joyce Hathaway", maiden: "Truby", sex: "f", b: "1824", d: "1886", place: "Chipping Campden", conf: "confirmed",
+    father: "georget", mother: "marycooper",
+    story: "A butcher's daughter from Chipping Campden, one of ten children. The 1851 census taker wrote her name so badly that it was transcribed as 'Jelly'.",
+    facts: [["9 Jun 1824", "Baptised", "Chipping Campden"], ["1846", "Son Richard Samuel born", "Chipping Campden"], ["18 Dec 1848", "Married Richard Hathaway", "Stretton-on-Fosse"], ["1851", "Census", "Birmingham"], ["1881", "Census", "Shipston-on-Stour"], ["1886", "Died", ""]],
+    sib: [["Elizabeth Truby", "b. 1810"], ["Anne Truby", "1815–1886"], ["Sarah Truby", "b. 1815"], ["Mary Truby", "b. 1817"], ["Caroline Truby", "b. 1819"], ["Alice Stanley Truby", "1822–1844"], ["George Edward Truby", "1827–1909"], ["Thirza Truby", "1830–1915"], ["Oswald Nimrod Truby", "1837–1858"]],
+    ev: [cen(1851, "'Jelly' Hathaway, 26, born Campden, wife of Richard.", "https://www.familysearch.org/ark:/61903/1:1:SG8M-15Z"), tree("LD7H-C5L", "Shared tree profile, 26 sources.")] },
+  { id: "jamesf_parents_placeholder", skip: true },
+  { id: "thomas1812", name: "Thomas Carwardine", sex: "m", b: "c.1812", d: "before 1891", place: "Leominster, Herefordshire", conf: "confirmed",
+    story: "The earliest Carwardine found so far. He left Herefordshire, the home of the Carwardine name for centuries, for industrial Birmingham. His first wife Mary Sherriff died in 1847 aged about 30. He married again, to Esther, and Alfred was their son.",
+    facts: [["c.1812", "Born", "Leominster, Herefordshire"], ["16 Mar 1837", "Married Mary Sherriff", "Edgbaston"], ["1847", "First wife Mary died", ""], ["1848", "Son Alfred born, with Esther", "Birmingham"], ["1851–1871", "Census", "Birmingham (Ledsam St, Edward St)"]],
+    ev: [cen(1871, "Thomas Carwardine, born c.1812 Leominster, wife Esther, children Esther, Emily, Sarah and Alfred."),
+         cen(1851, "Birmingham, born 1812 Leominster. The wife is transcribed as 'Catherine', probably a misreading of Esther."),
+         tree("MV88-GDQ", "Shared tree profile: first marriage to Mary Sherriff (1817–1847).")] },
+  { id: "esther", name: "Esther Carwardine", sex: "f", b: "c.1820", conf: "confirmed",
+    ev: [reg("Mother on Alfred's 1848 baptism."), cen(1871, "Wife of Thomas Carwardine, Birmingham.")] },
+
+  /* ---- 5x & 6x great ---- */
+  { id: "georget", name: "George Edward Truby", sex: "m", b: "Jan 1784", d: "23 Oct 1843", place: "Chipping Campden", conf: "probable",
+    father: "williamt",
+    story: "The butcher of Chipping Campden, a wool town of honey-coloured stone in the Cotswolds. He and Mary had ten children. He's buried in the churchyard of St James, which is still standing.",
+    facts: [["1 Jan 1784", "Baptised", "Chipping Campden"], ["3 Jan 1809", "Married Mary Cooper", "Chipping Campden"], ["", "Butcher", "Chipping Campden"], ["23 Oct 1843", "Died; buried St James churchyard", "Chipping Campden"]],
+    sib: [["Samuel Truby", "b. 1774"], ["Charles Truby", "b. 1781"], ["Benjamin Truby", "b. 1786"]],
+    ev: [tree("LD7H-DFV", "Shared tree profile with 16 sources. Built by volunteers, so treat it as a strong lead.")] },
+  { id: "marycooper", name: "Mary Truby", maiden: "Cooper", sex: "f", b: "10 Dec 1790", d: "3 Jan 1875", place: "Chipping Campden", conf: "probable",
+    father: "thomascooper", mother: "alicecooper",
+    story: "Baptised in Chipping Campden in December 1790. Both her parents had died by the time she was 14. She married the town butcher at 18, had ten children, and was still living on Victoria Street, Campden in 1841. She died there aged 84 and was buried in the town.",
+    facts: [["10 Dec 1790", "Baptised", "Chipping Campden"], ["1803–05", "Lost her mother, then her father", ""], ["3 Jan 1809", "Married George Edward Truby", "Chipping Campden"], ["1841", "Living on Victoria Street", "Chipping Campden"], ["3 Jan 1875", "Died, aged 84; buried at Campden", ""]],
+    ev: [tree("MJJY-24N", "Shared tree profile, 13 sources.")] },
+  { id: "thomascooper", name: "Thomas Cooper", sex: "m", b: "c.1765", d: "1805", place: "Chipping Campden", conf: "probable",
+    story: "Died at about 40, leaving his teenage daughter Mary an orphan.",
+    ev: [tree("L6HW-J4X", "Shared tree profile.")] },
+  { id: "alicecooper", name: "Alice Cooper", maiden: "Stanley", sex: "f", b: "c.1768", d: "1803", place: "Chipping Campden", conf: "probable",
+    story: "Mary Cooper's mother, who died at about 35. The name Alice Stanley carried on in the family: Mary named a daughter Alice Stanley Truby. The shared tree also puts a second, older 'Alice Stanley' in the family, which is probably a mix-up with this Alice.",
+    ev: [tree("L6HW-J8N", "Shared tree profile.")] },
+  { id: "williamt", name: "William Truby", sex: "m", b: "15 Jul 1758", place: "Chipping Campden", conf: "probable",
+    father: "williamt1722",
+    story: "Baptised in Chipping Campden in July 1758. The shared tree is muddled here. It marries him to an Alice Stanley in 1771, when he was 13, which is impossible, and also to a Fanny around 1786 at Kingham. George Edward's real mother still needs to be confirmed from the Campden parish registers.",
+    facts: [["15 Jul 1758", "Baptised", "Chipping Campden"], ["c.1786", "Married Fanny (per shared tree)", "Kingham, Oxfordshire"]],
+    ev: [tree("9KBN-CPF", "Shared tree profile, 8 sources. The marriages listed there conflict.")] },
+  { id: "williamt1722", name: "William Truby", sex: "m", b: "c.1722", place: "Chipping Campden?", conf: "probable",
+    story: "The earliest ancestor reached so far, born around 1722 in the reign of George I. He's your 7× great-grandfather, nine generations above you. The shared tree lists seven children.",
+    ev: [tree("MNHP-QQX", "Shared tree profile.")] }
+].filter(p => !p.skip);
+
+/* =========================================================
+   PLACES (photos: Wikimedia Commons via Wikipedia)
+   ========================================================= */
+const WM = (path, w = 330) => `https://upload.wikimedia.org/wikipedia/commons/thumb/${path}/${w}px-${path.split("/").pop()}`;
+const PLACES = {
+  campden: { name: "Chipping Campden, Gloucestershire", img: WM("d/da/Chipping_Campden_Church_-_geograph.org.uk_-_557911.jpg"), url: "https://en.wikipedia.org/wiki/Chipping_Campden",
+    blurb: "A Cotswold wool town with a honey-coloured high street that has barely changed since the 1600s. St James' church, where the Trubys were baptised, married and buried, was paid for by rich medieval wool merchants." },
+  leominster: { name: "Leominster, Herefordshire", img: WM("3/33/Leominster_Priory.jpg"), url: "https://en.wikipedia.org/wiki/Leominster",
+    blurb: "A market town near the Welsh border, once famous for its fine 'Lemster Ore' wool. Carwardine families lived around here for centuries, and the surname comes from a place in Herefordshire. The great Priory church dates back to Norman times." },
+  birmingham: { name: "Birmingham", img: WM("7/73/Birmingham_Skyline_from_the_West.jpg"), url: "https://en.wikipedia.org/wiki/Birmingham",
+    blurb: "The 'city of a thousand trades'. In the 1800s its workshops and factories drew in country families like the Hathaways, Carwardines and Peaks. Almost every branch of your English family ends up here." },
+  backtoback: { name: "Birmingham's back-to-back courts", img: WM("0/00/Birmingham_back_to_backs_4_%283874510488%29.jpg"), url: "https://en.wikipedia.org/wiki/Birmingham_Back_to_Backs",
+    blurb: "Most working Birmingham families in the 1800s and early 1900s lived in back-to-back houses built around shared courtyards, with one tap and one toilet block for many households. A preserved court on Hurst Street (National Trust) shows exactly how they lived." },
+  stthomas: { name: "St Thomas' Church, Birmingham", img: "https://upload.wikimedia.org/wikipedia/commons/3/38/St_Thomas%27_Peace_Garden%2C_Birmingham%2C_UK.jpg", url: "https://en.wikipedia.org/wiki/St_Thomas%27_Church,_Birmingham",
+    blurb: "Alfred Carwardine was baptised here in 1848, and the Hathaways lived in this parish in 1851. The church was bombed in the Blitz in 1940. Only its tower and colonnade survive, now the centrepiece of a peace garden." },
+  bethlehem: { name: "Bethlehem", img: WM("6/61/Church_of_the_Nativity_%287703592746%29.jpg"), url: "https://en.wikipedia.org/wiki/Bethlehem",
+    blurb: "Louay's birthplace, a hill town just south of Jerusalem, known worldwide as the birthplace of Jesus. The Church of the Nativity, pictured, is one of the oldest working churches in the world." },
+  wolverhampton: { name: "Wolverhampton", img: WM("b/bd/West_Midlands_Metro_tram_approaching_Wolverhampton_railway_station_-_geograph.org.uk_-_7798867.jpg"), url: "https://en.wikipedia.org/wiki/Wolverhampton",
+    blurb: "A Black Country industrial town famous for locks, keys and japanned metalwork. James Frederick Fitzpatrick was born at 30 St Mark's Street in 1874." },
+  shipston: { name: "Shipston-on-Stour", img: WM("d/da/Shipston-on-Stour%2C_High_Street%2C_geograph_3641703_by_John_Sutton.jpg"), url: "https://en.wikipedia.org/wiki/Shipston-on-Stour",
+    blurb: "A small market town on the River Stour, once a busy sheep market. Richard Hathaway the tailor was born here around 1823, and the family came back here in the 1860s." },
+  stretton: { name: "Stretton-on-Fosse", img: WM("a/a7/St_Peter%2C_view_of_the_side.jpg"), url: "https://en.wikipedia.org/wiki/Stretton-on-Fosse",
+    blurb: "A tiny village on the old Roman Fosse Way. Richard Hathaway married Joyce Truby here on 18 December 1848. St Peter's church is pictured." },
+  ilmington: { name: "Ilmington", img: WM("e/e0/St_Mary_the_Virgin_Church_Ilmington.jpg"), url: "https://en.wikipedia.org/wiki/Ilmington",
+    blurb: "A hillside village on the northern edge of the Cotswolds, where Richard Hathaway was living in 1871." },
+  aston: { name: "Aston, Birmingham", img: WM("3/3f/Aston_church_Birmingham.jpg"), url: "https://en.wikipedia.org/wiki/Aston",
+    blurb: "A crowded industrial district on Birmingham's north side, home of Aston Villa. James William Trueman was born here in 1910, and James Frederick Fitzpatrick married Ada Rudge here in 1904." },
+  edgbaston: { name: "Edgbaston, Birmingham", img: WM("8/8c/St_Bartholomew%27s_Church%2C_Church_Road%2C_Edgbaston%2C_Birmingham_-_June_2023_-_02.jpg"), url: "https://en.wikipedia.org/wiki/Edgbaston",
+    blurb: "Thomas Carwardine married his first wife, Mary Sherriff, in Edgbaston in 1837, the year Queen Victoria came to the throne. Pictured: St Bartholomew's, Edgbaston's old parish church." },
+  southwell: { name: "Southwell, Nottinghamshire", img: WM("e/e0/Southwell_Minster_2016_-_north-west_view.jpg"), url: "https://en.wikipedia.org/wiki/Southwell,_Nottinghamshire",
+    blurb: "A small town with a grand Norman minster. Leonard and Beryl Carwardine brought their family here in the 1950s. Baby Jeffrey died here in 1955, and Jayne and Ian were born here." },
+  mansfield: { name: "Mansfield, Nottinghamshire", img: WM("2/29/Mansfield_Market_Place.jpg"), url: "https://en.wikipedia.org/wiki/Mansfield",
+    blurb: "A Nottinghamshire mining and market town, where Anthea's youngest sister Tracy was born in 1964." },
+  bristol: { name: "Bristol", img: WM("1/19/Clifton_Suspension_Bridge_and_the_Observatory_in_Bristol%2C_England.jpg"), url: "https://en.wikipedia.org/wiki/Bristol",
+    blurb: "Louay and Anthea married here in 1969, and Nadia, Nedal and Nader were all born here." },
+  atlantic: { name: "Atlantic College, St Donat's, Wales", img: "", url: "https://en.wikipedia.org/wiki/UWC_Atlantic",
+    blurb: "Opened in 1962 in a medieval castle on the Glamorgan coast. It was the first of the United World Colleges, built to bring together bright students from every nation. Louay won a royal scholarship to study here." },
+  ledbury: { name: "Ledbury, Herefordshire", img: WM("d/d1/LedburyMarketHouse.JPG"), url: "https://en.wikipedia.org/wiki/Ledbury",
+    blurb: "A black-and-white timbered market town, where a young Samuel Marson born in Birmingham was living in 1911." },
+  liverpool: { name: "Liverpool", img: WM("7/78/Pier_Head%2C_Liverpool_-_geograph.org.uk_-_3059094.jpg"), url: "https://en.wikipedia.org/wiki/Liverpool",
+    blurb: "The great port where hundreds of thousands of Irish emigrants landed in the 1800s. James Fitzpatrick arrived from County Down, married here in 1840 and raised ten children. His son James was born here in 1843." },
+  countydown: { name: "County Down, Ireland", img: WM("2/23/Murlough_Beach.jpg"), url: "https://en.wikipedia.org/wiki/County_Down",
+    blurb: "A county on the north-east coast of Ireland, now in Northern Ireland, known for the Mourne Mountains and its long beaches. James Fitzpatrick was born here around 1819, which makes it the Irish homeland of your family." },
+  nottingham: { name: "Nottingham", img: WM("6/66/Nottingham_Council_House_on_Coronation_Day_-_geograph.org.uk_-_7477109.jpg"), url: "https://en.wikipedia.org/wiki/Nottingham",
+    blurb: "A lace-making city, home of the Watson family. Ann Watson was born in Nottinghamshire in 1848." },
+  stnicholas: { name: "St Nicholas' Church, Nottingham", img: WM("2/28/StNicsNottingham.JPG"), url: "https://en.wikipedia.org/wiki/St_Nicholas%27_Church,_Nottingham",
+    blurb: "A red-brick church near Nottingham Castle, where James Fitzpatrick married Ann Watson on 27 December 1869." },
+  salford: { name: "Salford, Lancashire", img: WM("b/b7/Manchester_%26_Salford_Skyline_2020.jpg"), url: "https://en.wikipedia.org/wiki/Salford",
+    blurb: "A cotton-mill town beside Manchester, where Mary Hughes was born around 1821 before she moved to Liverpool." },
+  darlaston: { name: "Darlaston, Staffordshire", img: WM("e/eb/The_Railway_Cutting%2C_Victoria_Park%2C_Darlaston_-_geograph.org.uk_-_75758.jpg"), url: "https://en.wikipedia.org/wiki/Darlaston",
+    blurb: "A Black Country town famous for nuts, bolts and forges. Samuel and Phoebe Bird were both born here around 1849, and so was their daughter Emma, Samuel Marson's mother." },
+  heathtown: { name: "Heath Town, Wolverhampton", img: WM("0/0a/Wednesfield_Road_and_Heath_Town_tower_blocks%2C_Wolverhampton_-_geograph.org.uk_-_2643128_bdf08baf.jpg"), url: "https://en.wikipedia.org/wiki/Heath_Town",
+    blurb: "A district of Wolverhampton where Ann Fitzpatrick lived in her later years, from 1901 until her death in 1936." },
+  smethwick: { name: "Smethwick", img: WM("f/f4/Waterloo_Road%2C_Smethwick_-_geograph.org.uk_-_1780235.jpg"), url: "https://en.wikipedia.org/wiki/Smethwick",
+    blurb: "An industrial town just west of Birmingham, where a Samuel Marson born in Aston was living in 1901." }
+};
+const PERSON_PLACES = {
+  mark: ["birmingham"], nadia: ["bristol"], roger: ["birmingham"], jillian: ["birmingham"],
+  louay: ["bethlehem", "atlantic", "bristol"], anthea: ["birmingham", "southwell", "bristol"],
+  samuelg: ["birmingham"], elsie: ["birmingham"], jwt1910: ["aston"], lilian: ["birmingham"],
+  ghaleb: ["bethlehem"], badriyeh: ["bethlehem"], leonard: ["birmingham", "southwell", "mansfield"], beryl: ["southwell"],
+  samuel: ["aston", "smethwick", "ledbury"], georgem: ["birmingham"], emmabird: ["darlaston", "smethwick"],
+  samuelbird: ["darlaston", "smethwick"], phoebebird: ["darlaston", "smethwick"], clara: ["backtoback", "birmingham"], jfitz: ["wolverhampton", "aston"], ada: ["aston"],
+  jwt1881: ["backtoback"], maryt: ["backtoback"], henryh: ["stthomas", "backtoback"], rose: ["backtoback"],
+  thomasc: ["birmingham"], emily: ["birmingham"], jamespeak: ["backtoback"], janepeak: ["backtoback"],
+  jamesf: ["liverpool", "stnicholas", "wolverhampton"], annief: ["nottingham", "stnicholas", "wolverhampton", "heathtown"],
+  jamesf1819: ["countydown", "liverpool"], jamesf1792: ["countydown"], maryhughes: ["salford", "liverpool"],
+  williamhughes: ["salford"], annmercer: ["salford"], henrywatson: ["nottingham"], maryannwalker: ["nottingham"],
+  thomascooper: ["campden"], alicecooper: ["campden"], williamt1722: ["campden"], richards: ["campden", "stthomas", "shipston", "backtoback"],
+  maryanne: ["backtoback"], henryhew: ["backtoback"], rosehew: ["backtoback"], alfredc: ["stthomas", "backtoback"], ellenc: ["birmingham"],
+  richardh: ["shipston", "campden", "stretton", "stthomas", "ilmington"], joyce: ["campden", "stretton", "stthomas", "shipston"],
+  thomas1812: ["leominster", "edgbaston", "stthomas"], esther: ["stthomas"],
+  georget: ["campden"], marycooper: ["campden"], williamt: ["campden"], alice: ["campden"]
+};
+
+/* What to do next to learn more about each person */
+const NEXT = {
+  richardhsr: "Clue: the Todenham christening index for 1583–1811 has NO Hathaways, so the family arrived in Todenham after 1811 and Richard Sr was born somewhere else (Stow-on-the-Wold is a candidate). Shakespeare test: Anne Hathaway's family were in Shottery, 1500s–1800s. To link, this line needs tracing back about six more generations (1790 → 1580) through Todenham, Stretton and Stow parish registers. Start with Richard Sr's own baptism and marriage (c.1815–22).",
+  johnfm: "Next: find James Marson and Sarah's marriage (c.1825–26, Birmingham). Was she a Heath or a Musson? Also James Sr and Martha's marriage (c.1800–05). Both may be in the Birmingham St Martin's or St Philip's registers on Ancestry (free at the library).",
+  orangewig: "Find William Wigington and Ann Simonds's 1782 marriage in the Shipston parish register (Worcestershire Archives) to check the shared tree.",
+  richardh: "His father was Richard Hathaway (from two wedding records). To go further, the Todenham baptism register (Gloucestershire Archives, c.1820–27) should name Richard Sr's wife. Ask the archive for a look-up or check the 'Gloucestershire Parish Registers' images on FamilySearch.",
+  ethan: "Interview your oldest relatives and record them on your phone. The answers are worth more than any database.",
+  mark: "Ask Dad what he remembers of his grandparents Samuel and Elsie Marson, and Jim and Lilian Trueman. Are there any photos?",
+  nadia: "Ask Mum about life in Jordan and Kuwait, and what she knows of the Salem family in Bethlehem.",
+  louay: "Grandad is the key to the whole Salem side. Ask for his grandparents' names, his brothers and sisters, where the family lived in Bethlehem, and whether there are old family photos or documents.",
+  anthea: "Nanna can confirm her parents' dates, Linda's birth name, and stories about Leonard, Beryl and baby Jeffrey.",
+  roger: "Grandad Roger is alive, so ask him directly. He was a boy in the 1950s, when his grandparents Samuel and Clara Marson were still around. He may know who Samuel Marson Sr's parents were, which is the Marson brick wall. Ask about his aunts and uncles, and for old photos.",
+  jillian: "Nan Jillian is alive, so ask her about her parents Jim and Lilian Trueman, her grandparents (the Truemans and Henry and Rose Hathaway), her brother Raymond, and any photos.",
+  emmabird: "Check the 1947 Birmingham death of an Emma Marson born c.1875. If it's her, the 1921 census (Findmypast) or the 1939 Register would show where she lived and who with. Also ask Grandad Roger: 'Did you know your great-grandmother Emma?' He was 3 in 1947.",
+  georgem: "Find out what happened to George and Emma before 1901. Search the 1901 census for George Marson (b. c.1870) and Emma Marson (b. c.1873), and check the death indexes for 1895–1901. Ask Grandad Roger whether he ever heard about them.",
+  samuel: "Proven: the GRO index gives his mother's maiden name as Bird. Still a mystery: why he was living with his Bird grandparents in 1901, and when he died. Ask Grandad Roger. A 1936 burial at Key Hill Cemetery might be him.",
+  jwt1881: "His birth hasn't been found under Trueman in Birmingham. Check the lead James Truman (b. late 1879, Birmingham, mother Mayo): find him in the 1891 or 1901 census. If he's a silversmith or electroplater in Birmingham, it's our man. Grandad Roger or Nan Jillian might also know where the Truemans came from.",
+  maryt: "Her maiden name was Carthy (from the GRO index). Next: find the marriage, which should be c.1905–06 in Aston, Birmingham or Lichfield. It might be indexed under McCarthy or Carty. The marriage certificate (about £12) would name her father and settle which Carthy girl she was.",
+  thomas1812: "Search the Leominster parish baptisms for 1810–1814 to find Thomas's parents. That could take the Carwardines back into the 1700s.",
+  elsie: "Find Elsie's death record. Ask Dad when Nan Elsie died.",
+  lilian: "Find Lilian's death record. Ask Dad when Nan Lilian died.",
+  ghaleb: "Only Grandad Louay can tell us about Ghaleb: his work, his parents, his life in Bethlehem.",
+  badriyeh: "Ask Grandad Louay how to spell her name, and what her family name was before she married.",
+  samuelg: "Ask Grandad Roger about his dad Samuel. What was his job? How did he lose his fingers, maybe in a factory accident? Where did the family live?",
+  williamt: "Check the Chipping Campden parish registers for George Edward's January 1784 baptism. It names both his parents, which settles the muddle in the shared tree.",
+  jamesf1819: "Check the 1851 Liverpool census for James and Mary Fitzpatrick. It should show 'Ireland' as his birthplace, and maybe even his town. Irish Catholic parish registers (free on registers.nli.ie) could then go further back.",
+  rose: "Confirm her parents by finding her baptism or the 1910/11 marriage certificate."
+};
+
+/* Extra stories for people who don't have one in their record */
+const STORY = {
+  mark: "Born in Birmingham on 21 October 1968, the city where almost every English branch of your family ended up. Mark is the son of Roger Marson and Jillian Trueman, and brother to Gary ('Gaz') and Gavin.",
+  roger: "Born in Birmingham in March 1944, in the last full year of the Second World War. He grew up with an older sister, Irene, and a younger brother, Robert, and married Jillian Trueman in 1964. Their sons are Mark, Gary and Gavin.",
+  samuelg: "Born in May 1916, weeks before the Battle of the Somme. Samuel George married Elsie Fitzpatrick in December 1939, just three months after the Second World War began. He didn't serve in the war because he was missing fingers. He lived to 81 and died in Birmingham in 1998.",
+  elsie: "Born in Birmingham in 1917, near the end of the First World War. She was a daughter of James Frederick Fitzpatrick, a Wolverhampton man, and Ada Rudge. She married Samuel George Marson as the Second World War began.",
+  jwt1910: "Born in Aston on 20 March 1910, in the last weeks of King Edward VII's reign. In 1911 he was a baby in his parents' Birmingham home. He married Lilian Hathaway in 1936, and they had Raymond in 1939 and Jillian in 1943, both in wartime.",
+  lilian: "Born in Birmingham in 1914, the year the First World War began. She was one of at least six children of Henry George Hathaway and Rose Louisa Hewitt, and she married James William Trueman in 1936.",
+  leonard: "Probably born in Birmingham in 1922, son of Thomas Carwardine and Emily Stephens. He married Beryl Coates in 1946, just after the Second World War. In the early 1950s he moved the family from Birmingham to Nottinghamshire.",
+  beryl: "Beryl married Leonard Carwardine in Birmingham in 1946. She raised at least six children, from Anthea in 1948 to Tracy in 1964, and lost baby Jeffrey in 1955.",
+  clara: "A Ladywood girl, born about 1896 into the Peak family in the back streets of central Birmingham. She married Samuel Marson in late 1915, in the middle of the First World War. Their son Samuel George arrived the following May.",
+  jfitz: "Born at 30 St Mark's Street, Wolverhampton, and baptised in St Mark's church in November 1874. He moved to Birmingham, married Ada Rudge in 1904 and raised a family of at least five there.",
+  henryh: "A Birmingham man, born about 1885 in St Thomas' parish, the son of Richard Samuel Hathaway the bricklayer. He married Rose Louisa Hewitt in 1910/11 and they had at least six children, including Lilian.",
+  alfredc: "Baptised at St Thomas', Birmingham in 1848, the son of a Herefordshire man. Alfred married Ellen in 1876 and raised a family of at least five. By 1901 he had moved out to Worcestershire. He died in 1925.",
+  emily: "Emily A. Stephens married Thomas Carwardine in Birmingham in December 1918, a month after the First World War ended.",
+  ada: "Ada Rudge married James Frederick Fitzpatrick in Aston in 1904. The 1911 census transcriber misread her name as 'Arthur'.",
+  jamespeak: "Next: find Thomas Peak (b. c.1834) as a boy in Wigston in the 1841 or 1851 census to get the next generation of Peaks.",
+  ellenc: "Ellen married Alfred Carwardine in 1876 and moved with him to Worcestershire. Her maiden name hasn't been found yet.",
+  esther: "Thomas Carwardine's second wife and Alfred's mother. In 1871 she was living in Birmingham with Thomas and their daughters Esther, Emily and Sarah.",
+  marycooper: "Mary married George Edward Truby, the Campden butcher, in January 1809. She had ten children and outlived her husband by more than 30 years.",
+  maryanne: "Mary Anne married Richard Samuel Hathaway in 1865 and had at least eleven children, all raised in Birmingham."
+};
+
+/* The world around them */
+const ERA = [
+  [1756, "The Seven Years' War began"], [1760, "George III became king"], [1776, "America declared independence from Britain"], [1789, "The French Revolution began"],
+  [1805, "Nelson won the Battle of Trafalgar"], [1815, "Wellington defeated Napoleon at Waterloo"], [1825, "The world's first public steam railway opened"],
+  [1837, "Victoria became queen"], [1838, "The railway from London reached Birmingham"], [1840, "The Penny Black, the first postage stamp, was issued"],
+  [1851, "The Great Exhibition was held at the Crystal Palace"], [1854, "The Crimean War began"], [1870, "School for every child was introduced"],
+  [1876, "Alexander Graham Bell invented the telephone"], [1889, "Birmingham was granted city status"], [1901, "Queen Victoria died after 63 years on the throne"],
+  [1903, "The Wright brothers made the first powered flight"], [1912, "The Titanic sank"], [1914, "The First World War began"],
+  [1918, "The First World War ended and women over 30 won the vote"], [1928, "All women won the vote on the same terms as men"], [1936, "The BBC began the world's first regular TV service"],
+  [1939, "The Second World War began"], [1940, "The Birmingham Blitz began, the city's worst bombing"], [1945, "The Second World War ended"],
+  [1948, "The NHS was founded, and in May the British Mandate in Palestine ended"], [1953, "Elizabeth II was crowned"], [1966, "England won the World Cup"],
+  [1969, "Humans walked on the Moon"], [1973, "Britain joined the European Economic Community"], [1989, "The Berlin Wall fell and the World Wide Web was invented"],
+  [2000, "A new millennium began"], [2012, "London hosted the Olympic Games"], [2020, "The COVID-19 pandemic began"], [2022, "Queen Elizabeth II died"]
+];
+const yr = s => { const m = String(s || "").match(/\d{4}/); return m ? +m[0] : null; };
+function worldAround(p) {
+  const by = yr(p.b); if (!by) return [];
+  const end = p.living ? 2026 : (yr(p.d) || by + 70);
+  let ev = ERA.filter(([y]) => y >= by && y <= end).map(([y, t]) => ({ y, age: y - by, t }));
+  if (ev.length > 6) { const step = (ev.length - 1) / 5; ev = [0, 1, 2, 3, 4, 5].map(i => ev[Math.round(i * step)]); }
+  return ev;
+}
+
+/* =========================================================
+   BUILD
+   ========================================================= */
+const P = Object.fromEntries(PEOPLE.map(p => [p.id, p]));
+const ROOT = "ethan";
+(function walk(id, g, line, child) {
+  const p = P[id]; if (!p) return;
+  p.g = g; p.line = line; p.child = child;
+  if (p.father) walk(p.father, g + 1, g === 0 ? "dad" : line, id);
+  if (p.mother) walk(p.mother, g + 1, g === 0 ? "mum" : line, id);
+})(ROOT, 0, "you", null);
+P.angelina.g = 0; P.angelina.line = "you";
+
+const initials = n => n.replace(/\(.*?\)/g, "").split(/\s+/).filter(w => /^[A-Z]/.test(w)).map(w => w[0]).filter((c, i, a) => i === 0 || i === a.length - 1).join("");
+const years = p => p.living ? (p.b ? "b. " + p.b : "Living") : (p.b || p.d) ? `${p.b || "?"} – ${p.d || "?"}` : "Dates unknown";
+const shortYear = s => { if (!s) return ""; const m = s.match(/\d{4}/); return m ? (s.startsWith("c.") ? "c." : "") + m[0] : s; };
+const cardYears = p => p.living ? (p.b ? "b. " + shortYear(p.b) : "Living") : (p.b || p.d) ? `${shortYear(p.b) || "?"} – ${shortYear(p.d) || "?"}` : "";
+function relation(p) {
+  if (p.id === ROOT) return "This is you";
+  if (p.id === "angelina") return "Your sister";
+  const m = p.sex === "m", g = p.g;
+  let r = g === 1 ? (m ? "Your dad" : "Your mum") : g === 2 ? (m ? "Your grandfather" : "Your grandmother")
+        : g === 3 ? (m ? "Your great-grandfather" : "Your great-grandmother")
+        : `Your ${g - 2}× great-grand${m ? "father" : "mother"}`;
+  if (g >= 2) r += p.line === "dad" ? " · Dad's side" : " · Mum's side";
+  return r;
+}
+function genLabel(g) { return ["You", "Parents", "Grandparents", "Great-grandparents"][g] || `${g - 2}× great-grandparents`; }
+
+/* ---------- Layout (contour-based pedigree) ---------- */
+const W = 210, H = 108, GX = 30, VS = 210, ROOT_W = 230;
+function layout(id) {
+  const p = P[id], f = P[p.father], m = P[p.mother];
+  const self = [-W / 2, W / 2];
+  if (f && m) {
+    const A = layout(f.id), B = layout(m.id);
+    let s = 0;
+    for (let d = 0; d < Math.min(A.length, B.length); d++) s = Math.max(s, A[d][1] - B[d][0] + GX);
+    f._rx = -s / 2; m._rx = s / 2;
+    const c = [self];
+    for (let d = 0; d < Math.max(A.length, B.length); d++) {
+      const a = A[d] && [A[d][0] - s / 2, A[d][1] - s / 2], b = B[d] && [B[d][0] + s / 2, B[d][1] + s / 2];
+      c.push(a && b ? [Math.min(a[0], b[0]), Math.max(a[1], b[1])] : (a || b));
+    }
+    return c;
+  }
+  const par = f || m;
+  if (par) { const A = layout(par.id); par._rx = 0; return [self, ...A]; }
+  return [self];
+}
+layout(ROOT);
+(function absolute(id, x) {
+  const p = P[id]; p.x = x; p.y = -p.g * VS;
+  [p.father, p.mother].forEach(pid => { if (P[pid]) absolute(pid, x + P[pid]._rx); });
+})(ROOT, 0);
+const coupleX = P[ROOT].x;
+P[ROOT].x = coupleX - (ROOT_W + GX) / 2 - 10;
+P.angelina.x = coupleX + (W + GX) / 2 + 10; P.angelina.y = 0;
+
+/* ---------- Render ---------- */
+const world = document.getElementById("world"), svg = document.getElementById("links");
+const NS = "http://www.w3.org/2000/svg";
+const ordered = PEOPLE.filter(p => p.g !== undefined).sort((a, b) => a.g - b.g || a.x - b.x);
+const minX = Math.min(...ordered.map(p => p.x)) - 260, maxX = Math.max(...ordered.map(p => p.x)) + 140;
+const minY = Math.min(...ordered.map(p => p.y)) - 100, maxY = 120;
+const OX = -minX, OY = -minY;
+world.style.width = (maxX - minX) + "px"; world.style.height = (maxY - minY) + "px";
+svg.setAttribute("width", maxX - minX); svg.setAttribute("height", maxY - minY);
+const cx = p => p.x + OX, cy = p => p.y + OY;
+const cardEls = {}, linkEls = {};
+
+ordered.forEach((p, i) => {
+  const el = document.createElement("div");
+  const w = p.id === ROOT ? ROOT_W : W;
+  el.className = `card ${p.line}${p.conf === "probable" ? " probable" : ""}${p.id === ROOT ? " root" : ""}`;
+  el.style.left = (cx(p) - w / 2) + "px"; el.style.top = (cy(p) - H / 2) + "px";
+  el.dataset.id = p.id; el.tabIndex = 0; el.setAttribute("role", "button"); el.setAttribute("aria-label", p.name);
+  const sibN = (p.sib || []).length;
+  el.innerHTML = `<div class="av" data-av="${p.id}">${initials(p.name)}</div>
+    <div class="txt"><div class="nm">${p.name}</div><div class="yr">${cardYears(p)}</div>${p.place ? `<div class="pl">${p.place}</div>` : ""}</div>
+    ${sibN && p.id !== ROOT ? `<span class="sibs">+${sibN} sibling${sibN > 1 ? "s" : ""}</span>` : ""}
+    `;
+  el.style.transitionDelay = `${p.g * 0.16 + (i % 7) * 0.025}s`;
+  world.appendChild(el); cardEls[p.id] = el;
+});
+
+// generation labels
+const gens = [...new Set(ordered.map(p => p.g))];
+gens.forEach(g => {
+  const row = ordered.filter(p => p.g === g); const left = Math.min(...row.map(p => cx(p) - W / 2));
+  const t = document.createElement("div"); t.className = "gen-tag"; t.textContent = genLabel(g);
+  t.style.left = (left - 26) + "px"; t.style.top = (-g * VS + OY) + "px"; t.style.transitionDelay = (g * 0.16 + .3) + "s";
+  world.appendChild(t);
+});
+
+// connectors: one per child with parents
+ordered.forEach(c => {
+  const f = P[c.father], m = P[c.mother]; if (!f && !m) return;
+  let d, mid, py;
+  if (f && m) {
+    py = cy(f); mid = (cx(f) + cx(m)) / 2;
+    d = `M${cx(f) + W / 2} ${py} H${cx(m) - W / 2}`;
+  } else { const q = f || m; py = cy(q) + H / 2; mid = cx(q); d = `M${mid} ${py}`; }
+  if (c.id === ROOT) {
+    const a = P[ROOT], b = P.angelina, bar = cy(a) - H / 2 - 34;
+    d += ` M${mid} ${py} V${bar} M${cx(a)} ${cy(a) - H / 2} V${bar} H${cx(b)} V${cy(b) - H / 2}`;
+  } else d += ` M${mid} ${py} V${cy(c) - H / 2}`;
+  const path = document.createElementNS(NS, "path");
+  path.setAttribute("d", d); path.setAttribute("pathLength", "1");
+  path.style.setProperty("--d", `${(c.g + 1) * 0.16 + .25}s`);
+  svg.appendChild(path);
+  let dot = null;
+  if (f && m) {
+    dot = document.createElementNS(NS, "circle");
+    dot.setAttribute("cx", mid); dot.setAttribute("cy", py); dot.setAttribute("r", 4.5);
+    dot.style.setProperty("--d", `${(c.g + 1) * 0.16 + .9}s`);
+    svg.appendChild(dot);
+  }
+  linkEls[c.id] = [path, dot].filter(Boolean);
+});
+
+const totalSibs = PEOPLE.reduce((n, p) => n + (p.id === ROOT ? 0 : (p.sib || []).length), 0);
+const maxG = Math.max(...ordered.map(p => p.g));
+const earliest = Math.min(...ordered.map(p => yr(p.b) || 9999));
+document.getElementById("stats").textContent = `${ordered.length} people in the line · ${totalSibs} relatives · ${maxG + 1} generations · ${earliest} → today`;
+
+/* =========================================================
+   CAMERA (pan / zoom)
+   ========================================================= */
+const vp = document.getElementById("viewport");
+const cam = { x: 0, y: 0, k: 1 };
+const apply = () => { world.style.transform = `translate(${cam.x}px, ${cam.y}px) scale(${cam.k})`; };
+const clampK = k => Math.min(2.2, Math.max(0.12, k));
+let tween = null;
+function animateTo(t, ms = 900) {
+  cancelAnimationFrame(tween);
+  const s = { ...cam }, t0 = performance.now();
+  const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  (function step(now) {
+    const u = Math.min(1, (now - t0) / ms), e = ease(u);
+    cam.x = s.x + (t.x - s.x) * e; cam.y = s.y + (t.y - s.y) * e; cam.k = s.k + (t.k - s.k) * e; apply();
+    if (u < 1) tween = requestAnimationFrame(step);
+  })(t0);
+}
+function fitView(ms) {
+  const vw = innerWidth, vh = innerHeight, top = innerWidth < 720 ? 120 : 90, bottom = 70;
+  const bw = maxX - minX, bh = maxY - minY;
+  const k = clampK(Math.min((vw - 40) / bw, (vh - top - bottom) / bh, 1));
+  animateTo({ k, x: (vw - bw * k) / 2, y: top + (vh - top - bottom - bh * k) / 2 }, ms);
+}
+function focus(id, k, ms = 900) {
+  const p = P[id]; const kk = clampK(k || Math.max(cam.k, innerWidth < 720 ? .75 : .95));
+  const panelW = document.getElementById("profile").classList.contains("open") && innerWidth >= 720 ? 460 : 0;
+  const vh = innerWidth < 720 && document.getElementById("profile").classList.contains("open") ? innerHeight * .12 : innerHeight / 2;
+  animateTo({ k: kk, x: (innerWidth - panelW) / 2 - cx(p) * kk, y: vh + (innerWidth < 720 ? 40 : 0) - cy(p) * kk }, ms);
+}
+function zoomAt(f, sx, sy) {
+  const k = clampK(cam.k * f); const r = k / cam.k;
+  cam.x = sx - (sx - cam.x) * r; cam.y = sy - (sy - cam.y) * r; cam.k = k; apply();
+}
+vp.addEventListener("wheel", e => { e.preventDefault(); cancelAnimationFrame(tween); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX, e.clientY); hideHint(); }, { passive: false });
+const pts = new Map(); let moved = 0, pinch = null;
+vp.addEventListener("pointerdown", e => {
+  vp.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY }); moved = 0; cancelAnimationFrame(tween);
+  if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) }; }
+  vp.classList.add("dragging");
+});
+vp.addEventListener("pointermove", e => {
+  if (!pts.has(e.pointerId)) return;
+  const prev = pts.get(e.pointerId), now = { x: e.clientX, y: e.clientY }; pts.set(e.pointerId, now);
+  if (pts.size === 2 && pinch) {
+    const [a, b] = [...pts.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
+    zoomAt(d / pinch.d, (a.x + b.x) / 2, (a.y + b.y) / 2); pinch.d = d; moved += 10;
+  } else if (pts.size === 1) {
+    cam.x += now.x - prev.x; cam.y += now.y - prev.y; moved += Math.abs(now.x - prev.x) + Math.abs(now.y - prev.y); apply();
+  }
+  if (moved > 6) hideHint();
+});
+const endPtr = e => {
+  pts.delete(e.pointerId); if (pts.size < 2) pinch = null; if (!pts.size) vp.classList.remove("dragging");
+};
+vp.addEventListener("pointerup", e => {
+  if (moved < 6 && pts.size === 1) {
+    const card = document.elementsFromPoint(e.clientX, e.clientY).find(n => n.classList && n.classList.contains("card"));
+    if (card) openProfile(card.dataset.id);
+  }
+  endPtr(e);
+});
+vp.addEventListener("pointercancel", endPtr);
+vp.addEventListener("dblclick", e => { animateTo({ k: clampK(cam.k * 1.6), x: e.clientX - (e.clientX - cam.x) * clampK(cam.k * 1.6) / cam.k, y: e.clientY - (e.clientY - cam.y) * clampK(cam.k * 1.6) / cam.k }, 400); });
+world.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.dataset.id) openProfile(e.target.dataset.id); });
+document.getElementById("zin").onclick = () => zoomAt(1.3, innerWidth / 2, innerHeight / 2);
+document.getElementById("zout").onclick = () => zoomAt(1 / 1.3, innerWidth / 2, innerHeight / 2);
+document.getElementById("fit").onclick = () => { closeProfile(); fitView(900); };
+document.getElementById("me").onclick = () => openProfile(ROOT);
+let hintGone = false; function hideHint() { if (!hintGone) { hintGone = true; document.getElementById("hint").style.opacity = 0; } }
+addEventListener("resize", () => { if (!document.getElementById("profile").classList.contains("open")) fitView(300); });
+
+/* =========================================================
+   LINEAGE HIGHLIGHT
+   ========================================================= */
+function highlight(id) {
+  document.querySelectorAll(".lit, .selected").forEach(n => n.classList.remove("lit", "selected"));
+  if (!id) return;
+  const p = P[id]; if (!p) return;
+  let cur = p.id === "angelina" ? null : p;
+  if (p.id === "angelina") { cardEls.angelina.classList.add("lit"); (linkEls[ROOT] || []).forEach(n => n.classList.add("lit")); }
+  while (cur) {
+    cardEls[cur.id].classList.add("lit");
+    if (cur.child) (linkEls[cur.child] || []).forEach(n => n.classList.add("lit"));
+    cur = P[cur.child];
+  }
+  cardEls[id].classList.add("selected");
+}
+
+/* =========================================================
+   PHOTOS (IndexedDB + optional photos/<id>.jpg)
+   ========================================================= */
+let dbp = null;
+function db() {
+  if (!dbp) dbp = new Promise((res, rej) => {
+    try { const r = indexedDB.open("marson-tree", 1); r.onupgradeneeded = () => r.result.createObjectStore("photos"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }
+    catch (e) { rej(e); }
+  });
+  return dbp;
+}
+async function idb(mode, key, val) {
+  try {
+    const d = await db();
+    return await new Promise(res => {
+      const st = d.transaction("photos", mode === "get" ? "readonly" : "readwrite").objectStore("photos");
+      const rq = mode === "get" ? st.get(key) : mode === "del" ? st.delete(key) : st.put(val, key);
+      rq.onsuccess = () => res(rq.result || null); rq.onerror = () => res(null);
+    });
+  } catch (e) { return null; }
+}
+const photos = {}, fromFile = new Set();
+function paintPhoto(id) {
+  const url = photos[id];
+  document.querySelectorAll(`[data-av="${id}"]`).forEach(n => {
+    n.style.backgroundImage = url ? `url("${url}")` : ""; n.classList.toggle("photo", !!url);
+  });
+}
+function loadPhotos() {
+  PEOPLE.forEach(async p => {
+    const stored = await idb("get", p.id);
+    if (stored) { photos[p.id] = stored; paintPhoto(p.id); return; }
+    const img = new Image();
+    img.onload = () => { if (!photos[p.id]) { photos[p.id] = img.src; fromFile.add(p.id); paintPhoto(p.id); } };
+    img.onerror = () => {};
+    img.src = `photos/${p.id}.jpg`;
+  });
+}
+function shrink(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const s = Math.min(1, 700 / Math.max(img.width, img.height));
+        const c = document.createElement("canvas"); c.width = img.width * s; c.height = img.height * s;
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL("image/jpeg", 0.86));
+      };
+      img.onerror = rej; img.src = fr.result;
+    };
+    fr.onerror = rej; fr.readAsDataURL(file);
+  });
+}
+
+/* =========================================================
+   PROFILE PANEL
+   ========================================================= */
+const panel = document.getElementById("profile"), scrim = document.getElementById("scrim");
+const ICON = { bmd: "📜", census: "🏠", parish: "⛪", death: "🕯", tree: "🌳", family: "💬" };
+const SRCNAME = e => ({ bmd: "FreeBMD · GRO index", census: `${e.y} Census`, parish: "Parish register", death: "Death Registration Index", tree: "FamilySearch shared tree", family: "Family knowledge" })[e.k];
+const confBadge = c => c === "confirmed" ? `<span class="badge ok">✓ Confirmed by records</span>` : c === "probable" ? `<span class="badge maybe">◐ Probable match</span>` : `<span class="badge fam">💬 From the family</span>`;
+function personLink(p, label) {
+  if (!p) return "";
+  return `<button class="person-link" data-go="${p.id}" style="--side:${p.line === "dad" ? "var(--dad)" : p.line === "mum" ? "var(--mum)" : "var(--gold)"}">
+    <span class="mini" data-av="${p.id}">${initials(p.name)}</span>
+    <span><b>${p.name}</b><small>${label} · ${years(p)}</small></span><span class="go">→</span></button>`;
+}
+function openProfile(id) {
+  const p = P[id]; if (!p) return;
+  const side = p.line === "dad" ? "var(--dad)" : p.line === "mum" ? "var(--mum)" : "var(--gold)";
+  panel.style.setProperty("--side", side);
+  const parents = [P[p.father], P[p.mother]].filter(Boolean);
+  const child = P[p.child];
+  const spouse = PEOPLE.find(q => q.id !== p.id && q.child && q.child === p.child && p.child && q.g === p.g);
+  const facts = (p.facts || []).map(([w, what, where]) => `<li>${w ? `<div class="when">${w}</div>` : ""}<div class="what">${what}</div>${where ? `<div class="where">${where}</div>` : ""}</li>`).join("");
+  const sibs = (p.sib || []).map(([n, note]) => {
+    const linked = n === "Angelina Marson" ? P.angelina : null;
+    return linked ? personLink(linked, "Sister") :
+      `<div class="person-link static"><span class="mini ghost">${initials(n)}</span><span><b>${n}</b><small>${note}</small></span></div>`;
+  }).join("");
+  if (!p.story && STORY[p.id]) p.story = STORY[p.id];
+  const places = (PERSON_PLACES[p.id] || []).map(k => PLACES[k]).filter(Boolean);
+  const world = worldAround(p);
+  const heroImg = (places.find(pl => pl.img) || {}).img;
+  const ev = (p.ev || []).map(e => `<div class="ev-item"><div class="src"><span class="ic">${ICON[e.k]}</span>${SRCNAME(e)}</div>
+      <p>${e.t}</p>${e.ref ? `<div class="ref">${e.ref}</div>` : ""}${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">Open source ↗</a>` : ""}</div>`).join("");
+  panel.innerHTML = `
+    <button class="close" aria-label="Close">×</button>
+    <div class="hero">
+      ${heroImg ? `<div class="hero-bg" style="background-image:url('${heroImg}')"></div>` : ""}
+      <div class="portrait"><div class="ring"></div><div class="pic" data-av="${p.id}">${initials(p.name)}</div></div>
+      <div class="rel">${relation(p)}</div>
+      <h3>${p.name}</h3>
+      ${p.maiden ? `<div class="nee">née ${p.maiden}</div>` : ""}
+      <div class="life">${years(p)}${p.place ? ` · ${p.place}` : ""}</div>
+      <div class="badges">${confBadge(p.conf)}${p.living ? `<span class="badge">Living</span>` : ""}</div>
+      <div class="photo-actions">
+        <label>📷 ${photos[p.id] ? "Change photo" : "Add a photo"}<input type="file" accept="image/*" id="photoIn"></label>
+        ${photos[p.id] && !fromFile.has(p.id) ? `<button id="photoDel">Remove</button>` : ""}
+      </div>
+    </div>
+    ${p.story ? `<div class="sec"><h4>Their story</h4><p class="story">${p.story}</p></div>` : ""}
+    ${facts ? `<div class="sec"><h4>Life timeline</h4><ul class="tl">${facts}</ul></div>` : ""}
+    <div class="sec"><h4>Family</h4><div class="people">
+      ${parents.map(q => personLink(q, q.sex === "m" ? "Father" : "Mother")).join("")}
+      ${spouse ? personLink(spouse, p.sex === "m" ? "Wife" : "Husband") : ""}
+      ${child ? personLink(child, child.sex === "m" ? "Son" : "Daughter") : ""}
+      ${p.id === "angelina" ? personLink(P.mark, "Father") + personLink(P.nadia, "Mother") + personLink(P.ethan, "Brother") : ""}
+      ${!parents.length && p.id !== "angelina" && p.id !== ROOT ? `<div class="empty">Parents not found yet. This is where the trail goes cold, for now.</div>` : ""}
+    </div></div>
+    ${sibs ? `<div class="sec"><h4>Brothers &amp; sisters</h4><div class="people">${sibs}</div></div>` : ""}
+    ${places.length ? `<div class="sec"><h4>Places in their life</h4><div class="places">${places.map(pl => `
+      <a class="place" href="${pl.url}" target="_blank" rel="noopener">
+        <div class="ph"${pl.img ? ` style="background-image:url('${pl.img}')"` : ""}>${pl.img ? "" : "🏰"}</div>
+        <div class="pc"><b>${pl.name}</b><p>${pl.blurb}</p><small>Photo &amp; history: Wikipedia / Wikimedia Commons ↗</small></div>
+      </a>`).join("")}</div></div>` : ""}
+    ${world.length ? `<div class="sec"><h4>The world around them</h4><div class="world">${world.map(w => `
+      <div class="wi"><span class="wy">${w.y}</span><span class="wt">${w.t}</span><span class="wa">${w.age === 0 ? "the year they were born" : "aged " + w.age}</span></div>`).join("")}</div></div>` : ""}
+    ${NEXT[p.id] ? `<div class="sec"><h4>How to find out more</h4><div class="next">🔎 ${NEXT[p.id]}</div></div>` : ""}
+    <div class="sec"><h4>Evidence</h4><div class="ev">${ev || `<div class="empty">No records yet.</div>`}</div></div>
+    <div class="foot">Photos you add are saved in this browser only. To keep them for good, drop an image named <b>${p.id}.jpg</b> into a <b>photos</b> folder next to this file.</div>`;
+  PEOPLE.forEach(q => photos[q.id] && paintPhoto(q.id));
+  panel.querySelector(".close").onclick = closeProfile;
+  panel.querySelectorAll("[data-go]").forEach(b => b.onclick = () => openProfile(b.dataset.go));
+  const inp = panel.querySelector("#photoIn");
+  inp.onchange = async () => {
+    const f = inp.files[0]; if (!f) return;
+    try { const url = await shrink(f); photos[p.id] = url; fromFile.delete(p.id); await idb("put", p.id, url); paintPhoto(p.id); openProfile(p.id); } catch (e) { alert("Sorry, that image couldn't be read."); }
+  };
+  const del = panel.querySelector("#photoDel");
+  if (del) del.onclick = async () => { delete photos[p.id]; await idb("del", p.id); paintPhoto(p.id); openProfile(p.id); };
+  panel.scrollTop = 0;
+  panel.classList.add("open"); if (innerWidth < 720) scrim.classList.add("show");
+  highlight(id); focus(id); hideHint();
+}
+function closeProfile() { panel.classList.remove("open"); scrim.classList.remove("show"); highlight(null); }
+scrim.onclick = closeProfile;
+addEventListener("keydown", e => { if (e.key === "Escape") { closeProfile(); results.classList.remove("show"); } });
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+const q = document.getElementById("q"), results = document.getElementById("results");
+let hits = [], active = 0;
+function renderHits() {
+  results.innerHTML = hits.map((p, i) => `<button class="${i === active ? "active" : ""}" data-id="${p.id}">${p.name}<small>${relation(p).replace("This is you", "You")} · ${years(p)}</small></button>`).join("");
+  results.classList.toggle("show", hits.length > 0);
+  results.querySelectorAll("button").forEach(b => b.onclick = () => pick(b.dataset.id));
+}
+function pick(id) { results.classList.remove("show"); q.value = ""; q.blur(); openProfile(id); }
+q.addEventListener("input", () => {
+  const s = q.value.trim().toLowerCase(); active = 0;
+  hits = s ? ordered.filter(p => (p.name + " " + (p.maiden || "") + " " + (p.place || "")).toLowerCase().includes(s)).slice(0, 12) : [];
+  renderHits();
+});
+q.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown") { active = Math.min(hits.length - 1, active + 1); renderHits(); e.preventDefault(); }
+  if (e.key === "ArrowUp") { active = Math.max(0, active - 1); renderHits(); e.preventDefault(); }
+  if (e.key === "Enter" && hits[active]) pick(hits[active].id);
+});
+document.addEventListener("pointerdown", e => { if (!e.target.closest(".search")) results.classList.remove("show"); });
+
+/* =========================================================
+   AMBIENT MOTES
+   ========================================================= */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+(function motes() {
+  const c = document.getElementById("motes"), x = c.getContext("2d"); let w, h, dpr;
+  const M = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .3, s: Math.random() * .00025 + .00008, ph: Math.random() * 6.28, a: Math.random() * .5 + .2 }));
+  function size() { dpr = Math.min(2, devicePixelRatio || 1); w = c.width = innerWidth * dpr; h = c.height = innerHeight * dpr; c.style.width = innerWidth + "px"; c.style.height = innerHeight + "px"; }
+  size(); addEventListener("resize", size);
+  function frame(t) {
+    x.clearRect(0, 0, w, h);
+    for (const m of M) {
+      if (!reduce) { m.y -= m.s; if (m.y < -0.02) { m.y = 1.02; m.x = Math.random(); } }
+      const px = (m.x + Math.sin(t / 4000 + m.ph) * .01) * w, py = m.y * h;
+      const tw = .55 + .45 * Math.sin(t / 900 + m.ph * 3);
+      x.beginPath(); x.arc(px, py, m.r * dpr, 0, 6.283);
+      x.fillStyle = `rgba(240,210,140,${m.a * tw})`; x.shadowBlur = 8 * dpr; x.shadowColor = "rgba(240,200,120,.8)"; x.fill();
+    }
+    if (!document.hidden && !reduce) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && !reduce) requestAnimationFrame(frame); });
+})();
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+function buildIntroTree() {
+  const g = document.getElementById("branches"); let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const maxD = 8; let html = "";
+  (function br(x, y, len, ang, d) {
+    const x2 = x + Math.cos(ang) * len, y2 = y + Math.sin(ang) * len;
+    const bend = (rnd() - .5) * len * .25;
+    const mx = (x + x2) / 2 + Math.cos(ang + Math.PI / 2) * bend, my = (y + y2) / 2 + Math.sin(ang + Math.PI / 2) * bend;
+    html += `<path pathLength="1" d="M${x.toFixed(1)} ${y.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}" stroke-width="${Math.max(.8, (maxD - d) * 1.5)}" style="animation-delay:${(d * .2).toFixed(2)}s"/>`;
+    if (d >= maxD - 1) { html += `<circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="${(1.6 + rnd() * 2).toFixed(1)}" style="animation-delay:${(d * .2 + .4 + rnd() * .5).toFixed(2)}s"/>`; return; }
+    const spread = .32 + rnd() * .16;
+    br(x2, y2, len * (.72 + rnd() * .08), ang - spread, d + 1);
+    br(x2, y2, len * (.72 + rnd() * .08), ang + spread, d + 1);
+    if (d < 3 && rnd() > .55) br(x2, y2, len * .55, ang + (rnd() - .5) * .3, d + 2);
+  })(300, 465, 105, -Math.PI / 2, 0);
+  g.innerHTML = html;
+  const t = document.getElementById("introTitle");
+  t.innerHTML = "The Marson Family".split("").map((ch, i) => `<span style="animation-delay:${1.5 + i * .05}s">${ch === " " ? "&nbsp;" : ch}</span>`).join("");
+}
+let entered = false;
+function enter() {
+  if (entered) return; entered = true;
+  const intro = document.getElementById("intro");
+  if (intro) { intro.classList.add("out"); setTimeout(() => intro.remove(), 1300); }
+  // start zoomed on Ethan, then pull back to reveal everyone
+  const kk = innerWidth < 720 ? .9 : 1.25;
+  cam.k = kk; cam.x = innerWidth / 2 - (coupleX + OX) * kk; cam.y = innerHeight * .62 - (OY) * kk; apply();
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".card, .gen-tag").forEach(n => n.classList.add("in"));
+    svg.querySelectorAll("path, circle").forEach(n => n.classList.add("in"));
+    setTimeout(() => fitView(2600), 350);
+  });
+}
+buildIntroTree();
+loadPhotos();
+if (reduce) { document.getElementById("intro").remove(); entered = false; enter(); }
+else {
+  document.getElementById("intro").addEventListener("click", enter);
+  setTimeout(enter, 4600);
+}
+</script>
+</body>
+</html>
