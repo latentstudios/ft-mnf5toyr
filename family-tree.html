@@ -237,6 +237,14 @@ header > * { pointer-events: auto; }
 .ev-item .src { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
 .ev-item .src .ic { width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; background: rgba(233,196,106,.12); font-size: 12px; letter-spacing: 0; }
 .ev-item p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: #ddd6c8; }
+.docs { display: none; }
+.docs.has { display: block; }
+.docs .dnote { font-size: 12.5px; color: var(--muted); margin: 0 0 10px; }
+.docs .dgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; }
+.docs .dgrid a { display: block; border-radius: 8px; overflow: hidden; border: 1px solid rgba(232,200,120,.25); background: #0e0b06; aspect-ratio: 3/4; }
+.docs .dgrid img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+.docs .dgrid a:hover img { transform: scale(1.06); }
+.docs .dgrid span { display: none; }
 .ev-item .ref { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--muted); margin-top: 6px; }
 .ev-item a { color: var(--gold2); font-size: 12px; text-decoration: none; display: inline-block; margin-top: 6px; }
 .ev-item a:hover { text-decoration: underline; }
@@ -1288,6 +1296,11 @@ function shrink(file) {
    PROFILE PANEL
    ========================================================= */
 const panel = document.getElementById("profile"), scrim = document.getElementById("scrim");
+/* Private documents: files live in documents/<id>/ on this computer only (git-ignored, never published). */
+const DOCS = {
+  jwt1910: { title: "WWII army service file (22 pages)", note: "His complete service record (The National Archives WO 422, from Ancestry). This copy is kept on your computer only, for private family research. Tap a page to open it full size.",
+    files: Array.from({ length: 22 }, (_, i) => "army-file-p" + String(i + 1).padStart(2, "0") + ".jpg") }
+};
 const ICON = { bmd: "📜", census: "🏠", parish: "⛪", death: "🕯", tree: "🌳", family: "💬", news: "📰", record: "📁" };
 const SRCNAME = e => ({ bmd: "FreeBMD · GRO index", census: e.y ? `${e.y} Census` : "Record", parish: "Parish register", death: "Death Registration Index", tree: "FamilySearch shared tree", family: "Family knowledge", news: "Newspaper", record: "Record" })[e.k] || "Record";
 const confBadge = c => c === "confirmed" ? `<span class="badge ok">✓ Confirmed by records</span>` : c === "probable" ? `<span class="badge maybe">◐ Probable match</span>` : `<span class="badge fam">💬 From the family</span>`;
@@ -1349,6 +1362,7 @@ function openProfile(id) {
     ${world.length ? `<div class="sec"><h4>The world around them</h4><div class="world">${world.map(w => `
       <div class="wi"><span class="wy">${w.y}</span><span class="wt">${w.t}</span><span class="wa">${w.age === 0 ? "the year they were born" : "aged " + w.age}</span></div>`).join("")}</div></div>` : ""}
     ${NEXT[p.id] ? `<div class="sec"><h4>How to find out more</h4><div class="next">🔎 ${NEXT[p.id]}</div></div>` : ""}
+    ${DOCS[p.id] ? `<div class="sec docs" id="docsSec"><h4>${DOCS[p.id].title}</h4><p class="dnote">${DOCS[p.id].note}</p><div class="dgrid">${DOCS[p.id].files.map(fn => `<a href="documents/${p.id}/${fn}" target="_blank" rel="noopener"><img src="documents/${p.id}/thumbs/${fn}" alt="Page" onload="this.closest('.docs').classList.add('has')"></a>`).join("")}</div></div>` : ""}
     <div class="sec"><h4>Evidence</h4><div class="ev">${ev || `<div class="empty">No records yet.</div>`}</div></div>
     <div class="foot">Photos you add are saved in this browser only. To keep them for good, drop an image named <b>${p.id}.jpg</b> into a <b>photos</b> folder next to this file.</div>`;
   PEOPLE.forEach(q => photos[q.id] && paintPhoto(q.id));
